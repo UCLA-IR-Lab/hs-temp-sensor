@@ -4,7 +4,9 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "spidev>=3.7",
+]
 
 [project.scripts]
 hs-temp-sensor = "hs_temp_sensor:main"
