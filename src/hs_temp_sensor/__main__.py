@@ -1,7 +1,7 @@
-from . import ad7124
+from .ad7124 import AD7124
 
 def main() -> None:
-    adc = ad7124.AD7124()
+    adc = AD7124()
     adc.connect()
     adc.read_id()
     adc.close()
