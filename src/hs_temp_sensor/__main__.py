@@ -1,7 +1,7 @@
-from .ad7124 import AD7124
+from hs_temp_sensor import ad7124
 
 def main() -> None:
-    adc = AD7124()
+    adc = ad7124.AD7124()
     adc.connect()
     adc.read_id()
     adc.close()
