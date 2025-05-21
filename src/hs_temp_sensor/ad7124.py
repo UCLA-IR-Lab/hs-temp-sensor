@@ -52,13 +52,12 @@ class AD7124:
         return id_register, device_id, silicon_rev
     
     def read_die_temp(self):
-        response = self.spi.xfer2([AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_CH0_MAP_REG)])
-        print(response)
+        comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_CH0_MAP_REG)]
         set_ch0 = AD7124_CH_MAP_REG_CH_ENABLE | AD7124_CH_MAP_REG_SETUP(0) | AD7124_CH_MAP_REG_AINP(0x10) | AD7124_CH_MAP_REG_AINN(0x10)
-        response = self.spi.xfer2([(set_ch0 >> 8) & 0xFF, set_ch0 & 0xFF])
-        print(response)
+        # response = self.spi.xfer2([(set_ch0 >> 8) & 0xFF, set_ch0 & 0xFF])
+        # print(response)
         data_read = AD7124_COMMS_REG | AD7124_COMM_REG_WEN | AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_DATA_REG)
-        response = self.spi.xfer2([data_read, 0x00, 0x00, 0x00])
+        response = self.spi.xfer2([comms_write, (set_ch0 >> 8) & 0xFF, set_ch0 & 0xFF, data_read, 0x00, 0x00, 0x00])
         print(response)
         die_temp = (response[1] << 8) | response[2]
         die_temp = (die_temp >> 4) & 0xFFF
