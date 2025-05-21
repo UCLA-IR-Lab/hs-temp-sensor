@@ -45,7 +45,7 @@ class AD7124:
         id_register = response[-1]
         device_id = (id_register >> 4) & 0x0F
         silicon_rev = id_register & 0x0F
-        print(f"ID Register: {id_register}")
+        print(f"ID Register: {{:02X}}".format(id_register))
         print(f"\tDevice ID: {device_id}")
         print(f"\tSilicon Revision: {silicon_rev}")
         
