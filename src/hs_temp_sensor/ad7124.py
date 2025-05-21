@@ -77,7 +77,8 @@ class AD7124:
     def read_adc_config(self):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_ADC_CTRL_REG)
         response = self.spi.xfer2([comms_write, 0x00, 0x00])
-        print("ADC Configuration: 0x{:04X}".format(response))
+        adc_control_reg = response[-2] << 8 | response[-1]
+        print("ADC Configuration: 0x{:04X}".format(adc_control_reg))
     
     def read_die_temp(self):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_CH0_MAP_REG)
