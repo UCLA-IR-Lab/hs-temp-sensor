@@ -36,13 +36,20 @@ class AD7124:
     def close(self):
         self.spi.close()
         
+    def initialize(self):
+        self.reset()
+        
     def reset(self):
         self.spi.writebytes([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF])
         print("Reset complete")
         
     def read_id(self):
-        response = self.spi.xfer2([AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_ID_REG), 0x00])
-        id_register = response[-1]
+        command = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_ID_REG)
+        self.spi.writebytes([command])
+        response = self.spi.readbytes(1)
+        # response = self.spi.xfer2([AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_ID_REG), 0x00])
+        # id_register = response[-1]
+        id_register = response
         device_id = (id_register >> 4) & 0x0F
         silicon_rev = id_register & 0x0F
         print("ID Register: 0x{:02X}".format(id_register))
