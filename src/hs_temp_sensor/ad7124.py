@@ -12,6 +12,16 @@ AD7124_COMM_REG_WR = 0 << 6
 AD7124_COMM_REG_RD = 1 << 6
 AD7124_COMM_REG_RA = lambda x : (x & 0x3F)
 
+AD7124_ADC_CTRL_REG = 0x01
+AD7124_ADC_CTRL_REG_DOUT_RDY_DEL = 1 << 12
+AD7124_ADC_CTRL_REG_CONT_READ = 1 << 11
+AD7124_ADC_CTRL_REG_DATA_STATUS = 1 << 10
+AD7124_ADC_CTRL_REG_CS_EN = 1 << 9
+AD7124_ADC_CTRL_REG_REF_EN = 1 << 8
+AD7124_ADC_CTRL_REG_POWER_MODE = lambda x : (x & 0x03) << 6
+AD7124_ADC_CTRL_REG_MODE = lambda x : (x & 0x0F) << 2
+AD7124_ADC_CTRL_REG_CLK_SEL = lambda x : (x & 0x03)
+
 AD7124_DATA_REG = 0x02
 
 AD7124_ID_REG = 0x05
@@ -54,6 +64,20 @@ class AD7124:
         print("\tSilicon Revision: {}".format(silicon_rev))
         
         return id_register, device_id, silicon_rev
+    
+    def configure(self):
+        pass
+    
+    def set_adc_config(self):
+        comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_ADC_CTRL_REG)
+        adc_config = AD7124_ADC_CTRL_REG_DOUT_RDY_DEL | AD7124_ADC_CTRL_REG_DATA_STATUS | AD7124_ADC_CTRL_REG_REF_EN | AD7124_ADC_CTRL_REG_POWER_MODE(3) | AD7124_ADC_CTRL_REG_MODE(0) | AD7124_ADC_CTRL_REG_CLK_SEL(0)
+        self.spi.xfer2([comms_write, (adc_config >> 8) & 0xFF, adc_config & 0xFF])
+        print("ADC Configured")
+        
+    def read_adc_config(self):
+        comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_ADC_CTRL_REG)
+        response = self.spi.xfer2([comms_write, 0x00, 0x00])
+        print("ADC Configuration: 0x{:04X}".format(response))
     
     def read_die_temp(self):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_CH0_MAP_REG)

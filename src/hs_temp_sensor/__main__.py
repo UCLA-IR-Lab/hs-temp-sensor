@@ -5,6 +5,7 @@ def main() -> None:
     adc.connect()
     adc.initialize()
     adc.read_id()
+    adc.read_adc_config()
     # adc.read_die_temp()
     adc.close()
     
