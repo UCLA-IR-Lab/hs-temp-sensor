@@ -92,6 +92,12 @@ class AD7124:
         response = self.spi.xfer2([comms_write, 0x00, 0x00])
         channel_config_reg = response[-2] << 8 | response[-1]
         print("Channel {} Configuration: 0x{:04X}".format(channel, channel_config_reg))
+        
+    def read_data(self):
+        comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN | AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_DATA_REG)
+        data_reg = self.spi.xfer2([comms_write, 0x00, 0x00, 0x00])
+        data = (data_reg[-3] << 16) | (data_reg[-2] << 8) | data_reg[-1]
+        print("Data Register: 0x{:06X}".format(data))
     
     def read_die_temp(self):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_CH0_MAP_REG)
