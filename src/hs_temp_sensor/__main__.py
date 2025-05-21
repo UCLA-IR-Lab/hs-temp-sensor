@@ -7,7 +7,7 @@ def main() -> None:
     adc.read_id()
     adc.read_adc_config()
     adc.read_channel_config()
-    # adc.read_data()
+    adc.read_data()
     adc.configure()
     adc.read_adc_config()
     adc.read_channel_config()
