@@ -11,7 +11,8 @@ def main() -> None:
     adc.configure()
     adc.read_adc_config()
     adc.read_channel_config()
-    adc.read_data()
+    data = adc.read_data()
+    adc.read_die_temp(data)
     
     
     

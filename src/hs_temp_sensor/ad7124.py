@@ -100,8 +100,14 @@ class AD7124:
         data_reg = self.spi.xfer2([comms_write, 0x00, 0x00, 0x00])
         data = (data_reg[-3] << 16) | (data_reg[-2] << 8) | data_reg[-1]
         print("Data Register: 0x{:06X}".format(data))
+        
+        return data
     
-    def read_die_temp(self):
+    def read_die_temp(self, data):
+        die_temp = ((data - 0x800000)/13584) - 272.5
+        print("Die Temperature: {} °C".format(die_temp))
+    
+    def _read_die_temp(self):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_CH0_MAP_REG)
         set_ch0 = AD7124_CH_MAP_REG_CH_ENABLE | AD7124_CH_MAP_REG_SETUP(0) | AD7124_CH_MAP_REG_AINP(0x10) | AD7124_CH_MAP_REG_AINN(0x10)
         # response = self.spi.xfer2([(set_ch0 >> 8) & 0xFF, set_ch0 & 0xFF])
