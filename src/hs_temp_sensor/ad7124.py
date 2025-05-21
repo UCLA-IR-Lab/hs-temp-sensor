@@ -66,7 +66,7 @@ class AD7124:
         return id_register, device_id, silicon_rev
     
     def configure(self):
-        pass
+        self.set_adc_config()
     
     def set_adc_config(self):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_ADC_CTRL_REG)
