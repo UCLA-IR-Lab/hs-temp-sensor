@@ -67,6 +67,7 @@ class AD7124:
     
     def configure(self):
         self.set_adc_config()
+        self.set_channel_config()
     
     def set_adc_config(self):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_ADC_CTRL_REG)
@@ -80,8 +81,11 @@ class AD7124:
         adc_control_reg = response[-2] << 8 | response[-1]
         print("ADC Configuration: 0x{:04X}".format(adc_control_reg))
         
-    def set_channel_config(self):
-        pass
+    def set_channel_config(self, channel=0):
+        comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_CH0_MAP_REG)
+        channel_config = AD7124_CH_MAP_REG_CH_ENABLE | AD7124_CH_MAP_REG_SETUP(0) | AD7124_CH_MAP_REG_AINP(16) | AD7124_CH_MAP_REG_AINN(0x16)
+        self.spi.xfer2([comms_write, (channel_config >> 8) & 0xFF, channel_config & 0xFF])
+        print("Channel {} Configured".format(channel))
     
     def read_channel_config(self, channel=0):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_CH0_MAP_REG)
