@@ -42,7 +42,11 @@ class AD7124:
         
     def read_id(self):
         response = self.spi.xfer2([AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_ID_REG), 0x00])
-        id_value = response[-1]
-        print(f"ID: {id_value}")
+        id_register = response[-1]
+        device_id = (id_register >> 4) & 0x0F
+        silicon_rev = id_register & 0x0F
+        print(f"ID Register: {id_register}")
+        print(f"\tDevice ID: {device_id}")
+        print(f"\tSilicon Revision: {silicon_rev}")
         
-        return id_value
+        return id_register, device_id, silicon_rev
