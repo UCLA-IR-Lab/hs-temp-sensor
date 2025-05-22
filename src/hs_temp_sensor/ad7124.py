@@ -84,7 +84,7 @@ class AD7124:
         
     def set_channel_config(self, channel=0):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_CH0_MAP_REG)
-        channel_config = AD7124_CH_MAP_REG_CH_ENABLE | AD7124_CH_MAP_REG_SETUP(0) | AD7124_CH_MAP_REG_AINP(16) | AD7124_CH_MAP_REG_AINN(16)
+        channel_config = AD7124_CH_MAP_REG_CH_ENABLE | AD7124_CH_MAP_REG_SETUP(0) | AD7124_CH_MAP_REG_AINP(16) | AD7124_CH_MAP_REG_AINN(17)
         self.spi.xfer2([comms_write, (channel_config >> 8) & 0xFF, channel_config & 0xFF])
         print("Channel {} Configured".format(channel))
     
