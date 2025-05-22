@@ -105,7 +105,7 @@ class AD7124:
     
     def read_die_temp(self, data):
         die_temp = ((data - 0x800000)/13584) - 272.5
-        print("Die Temperature: {} °C".format(die_temp))
+        print("Die Temperature: {:.5f} °C".format(die_temp))
     
     def _read_die_temp(self):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_CH0_MAP_REG)
