@@ -1,5 +1,8 @@
+from logging import getLogger
 import spidev
 import time
+
+logger = getLogger(__name__)
 
 AD7124_SPI_BUS = 0
 AD7124_SPI_DEVICE = 0
@@ -52,7 +55,7 @@ class AD7124:
         
     def reset(self):
         self.spi.xfer2([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF])
-        print("Reset complete")
+        logger.debug("Reset complete")
         
     def read_id(self):
         command = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_ID_REG)
