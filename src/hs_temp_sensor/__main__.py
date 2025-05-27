@@ -8,6 +8,7 @@ def main() -> None:
     parser.add_argument("-v", "--verbose", dest="verbosity", action="count", default=0,
                         help="Verbosity (between 1-4 occurrences with more leading to more verbose logging)" \
                         "CRITICAL=0, ERROR=1, WARNING=2, INFO=3, DEBUG=4")
+    parser.add_argument("-r", "--reset", action="store_true", help="Reset the ADC chip")
     
     log_levels = {
         0: CRITICAL,
@@ -26,6 +27,13 @@ def main() -> None:
 
     adc = ad7124.AD7124()
     adc.connect()
+    
+    if args.reset:
+        adc.reset()
+        adc.close()
+        
+        return
+
     adc.initialize()
     adc.read_id()
     adc.read_adc_config()
@@ -36,8 +44,6 @@ def main() -> None:
     adc.read_channel_config()
     data = adc.read_data()
     adc.read_die_temp(data)
-    
-    
     
     # adc.read_die_temp()
     adc.close()
