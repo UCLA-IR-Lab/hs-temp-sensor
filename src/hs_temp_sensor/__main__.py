@@ -2,6 +2,11 @@ from logging import basicConfig, StreamHandler, DEBUG
 
 from hs_temp_sensor import ad7124
 
+basicConfig(
+    level=DEBUG,
+    format='%(asctime)s %(name)s:%(lineno)s %(funcName)s [%(levelname)s]: %(message)s'
+)
+
 def main() -> None:
     adc = ad7124.AD7124()
     adc.connect()
@@ -22,9 +27,4 @@ def main() -> None:
     adc.close()
     
 if __name__ == "__main__":
-    basicConfig(
-        level=DEBUG,
-        format='%(asctime)s %(name)s:%(lineno)s %(funcName)s [%(levelname)s]: %(message)s'
-    )
-
     main()

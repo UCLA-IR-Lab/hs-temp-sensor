@@ -63,9 +63,9 @@ class AD7124:
         id_register = response[-1]
         device_id = (id_register >> 4) & 0x0F
         silicon_rev = id_register & 0x0F
-        print("ID Register: 0x{:02X}".format(id_register))
-        print("\tDevice ID: {}".format(device_id))
-        print("\tSilicon Revision: {}".format(silicon_rev))
+        logger.debug("ID Register: 0x{:02X}".format(id_register))
+        logger.debug("\tDevice ID: {}".format(device_id))
+        logger.debug("\tSilicon Revision: {}".format(silicon_rev))
         
         return id_register, device_id, silicon_rev
     
@@ -77,37 +77,37 @@ class AD7124:
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_ADC_CTRL_REG)
         adc_config = AD7124_ADC_CTRL_REG_DOUT_RDY_DEL | AD7124_ADC_CTRL_REG_DATA_STATUS | AD7124_ADC_CTRL_REG_REF_EN | AD7124_ADC_CTRL_REG_POWER_MODE(3) | AD7124_ADC_CTRL_REG_MODE(0) | AD7124_ADC_CTRL_REG_CLK_SEL(0)
         self.spi.xfer2([comms_write, (adc_config >> 8) & 0xFF, adc_config & 0xFF])
-        print("ADC Configured")
+        logger.debug("ADC Configured")
         
     def read_adc_config(self):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_ADC_CTRL_REG)
         response = self.spi.xfer2([comms_write, 0x00, 0x00])
         adc_control_reg = response[-2] << 8 | response[-1]
-        print("ADC Configuration: 0x{:04X}".format(adc_control_reg))
+        logger.debug("ADC Configuration: 0x{:04X}".format(adc_control_reg))
         
     def set_channel_config(self, channel=0):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_CH0_MAP_REG)
         channel_config = AD7124_CH_MAP_REG_CH_ENABLE | AD7124_CH_MAP_REG_SETUP(0) | AD7124_CH_MAP_REG_AINP(16) | AD7124_CH_MAP_REG_AINN(17)
         self.spi.xfer2([comms_write, (channel_config >> 8) & 0xFF, channel_config & 0xFF])
-        print("Channel {} Configured".format(channel))
+        logger.debug("Channel {} Configured".format(channel))
     
     def read_channel_config(self, channel=0):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_CH0_MAP_REG)
         response = self.spi.xfer2([comms_write, 0x00, 0x00])
         channel_config_reg = response[-2] << 8 | response[-1]
-        print("Channel {} Configuration: 0x{:04X}".format(channel, channel_config_reg))
+        logger.debug("Channel {} Configuration: 0x{:04X}".format(channel, channel_config_reg))
         
     def read_data(self):
         time.sleep(0.1)
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN | AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_DATA_REG)
         data_reg = self.spi.xfer2([comms_write, 0x00, 0x00, 0x00])
         data = (data_reg[-3] << 16) | (data_reg[-2] << 8) | data_reg[-1]
-        print("Data Register: 0x{:06X}".format(data))
+        logger.debug("Data Register: 0x{:06X}".format(data))
         
         return data
     
     def read_die_temp(self, data):
         die_temp = ((data - 0x800000)/13584) - 272.5
-        print("Die Temperature: {:.5f} °C".format(die_temp))
+        logger.debug("Die Temperature: {:.5f} °C".format(die_temp))
         
         return die_temp
