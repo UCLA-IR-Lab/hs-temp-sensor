@@ -9,6 +9,8 @@ def main() -> None:
                         help="Verbosity (between 1-4 occurrences with more leading to more verbose logging)" \
                         "CRITICAL=0, ERROR=1, WARNING=2, INFO=3, DEBUG=4")
     parser.add_argument("-r", "--reset", action="store_true", help="Reset the ADC chip")
+    parser.add_argument("--id", action="store_true", help="Read chip ID")
+    parser.add_argument("--temp", action="store_true", help="Read on-chip die temperature")
     
     log_levels = {
         0: CRITICAL,
@@ -33,19 +35,27 @@ def main() -> None:
         adc.close()
         
         return
+    
+    if args.id:
+        adc.read_id()
+        adc.close()
+        
+        return
 
     adc.initialize()
-    adc.read_id()
-    adc.read_adc_config()
-    adc.read_channel_config()
-    adc.read_data()
-    adc.configure()
-    adc.read_adc_config()
-    adc.read_channel_config()
-    data = adc.read_data()
-    adc.read_die_temp(data)
     
-    # adc.read_die_temp()
+    if args.temp:
+        if args.verbosity:
+            adc.read_adc_config()
+            adc.read_channel_config()
+            adc.read_data()
+        adc.configure()
+        if args.verbosity:
+            adc.read_adc_config()
+            adc.read_channel_config()
+        data = adc.read_data()
+        adc.read_die_temp(data)
+    
     adc.close()
     
 if __name__ == "__main__":
