@@ -11,6 +11,7 @@ def main() -> None:
     parser.add_argument("-r", "--reset", action="store_true", help="Reset the ADC chip")
     parser.add_argument("--id", action="store_true", help="Read chip ID")
     parser.add_argument("--temp", action="store_true", help="Read on-chip die temperature")
+    parser.add_argument("--test", action="store_true", help="Run a test sequence")
     
     log_levels = {
         0: CRITICAL,
@@ -41,10 +42,9 @@ def main() -> None:
         adc.close()
         
         return
-
-    adc.initialize()
     
     if args.temp:
+        adc.initialize()
         if args.verbosity:
             adc.read_adc_config()
             adc.read_channel_config()
@@ -55,6 +55,12 @@ def main() -> None:
             adc.read_channel_config()
         data = adc.read_data()
         adc.read_die_temp(data)
+        adc.close()
+        
+        return
+    
+    if args.test:
+        adc.initialize()
     
     adc.close()
     

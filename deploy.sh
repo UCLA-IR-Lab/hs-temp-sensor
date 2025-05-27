@@ -1,12 +1,18 @@
 #! /usr/bin/bash
 
-while getopts ":vrh" OPTARG; do
+while getopts ":vrith" OPTARG; do
     case $OPTARG in
     v)
         COMMAND="uv run src/hs_temp_sensor -vvvv"
         ;;  
     r)
         COMMAND="uv run src/hs_temp_sensor -r -vvvv"
+        ;;
+    i)
+        COMMAND="uv run src/hs_temp_sensor --id -vvvv"
+        ;;
+    t)
+        COMMAND="uv run src/hs_temp_sensor --temp -vvvv"
         ;;
     h)
         echo "Help: deploy.sh [-v] [-r] [-h]"
