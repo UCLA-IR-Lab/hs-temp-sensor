@@ -63,9 +63,9 @@ class AD7124:
         id_register = response[-1]
         device_id = (id_register >> 4) & 0x0F
         silicon_rev = id_register & 0x0F
-        logger.debug("ID Register: 0x{:02X}".format(id_register))
-        logger.debug("\tDevice ID: {}".format(device_id))
-        logger.debug("\tSilicon Revision: {}".format(silicon_rev))
+        logger.info("ID Register: 0x{:02X}".format(id_register))
+        logger.debug("Device ID: {}".format(device_id))
+        logger.debug("Silicon Revision: {}".format(silicon_rev))
         
         return id_register, device_id, silicon_rev
     
@@ -108,6 +108,6 @@ class AD7124:
     
     def read_die_temp(self, data):
         die_temp = ((data - 0x800000)/13584) - 272.5
-        logger.debug("Die Temperature: {:.5f} °C".format(die_temp))
+        logger.info("Die Temperature: {:.5f} °C".format(die_temp))
         
         return die_temp
