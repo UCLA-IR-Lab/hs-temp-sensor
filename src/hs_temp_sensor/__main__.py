@@ -90,8 +90,6 @@ def main() -> None:
             
         ch0_data = adc.read_data()
         ch1_data = adc.read_data()
-        ch2_data = adc.read_data()
-        ch3_data = adc.read_data()
         # ch2_data = adc.read_data()
         adc.read_die_temp(ch0_data)
         # adc.read_die_temp(ch1_data)
