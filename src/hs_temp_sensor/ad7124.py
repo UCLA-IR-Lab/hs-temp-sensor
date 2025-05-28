@@ -16,6 +16,8 @@ AD7124_COMM_REG_WR = 0 << 6
 AD7124_COMM_REG_RD = 1 << 6
 AD7124_COMM_REG_RA = lambda x : (x & 0x3F)
 
+AD7124_STATUS_REG = 0x00
+
 AD7124_ADC_CTRL_REG = 0x01
 AD7124_ADC_CTRL_REG_DOUT_RDY_DEL = 1 << 12
 AD7124_ADC_CTRL_REG_CONT_READ = 1 << 11
@@ -99,6 +101,14 @@ class AD7124:
     def reset(self):
         self.spi.xfer2([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF])
         logger.debug("Reset complete")
+        
+    def read_status(self):
+        comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN | AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_STATUS_REG)
+        response = self.spi.xfer2([comms_write, 0x00])
+        status_register = response & 0xFF
+        logger.debug("Status Register: 0x{:02X}".format(status_register))
+        
+        return status_register
         
     def read_id(self):
         command = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_ID_REG)
