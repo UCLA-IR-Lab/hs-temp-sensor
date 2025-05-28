@@ -69,13 +69,17 @@ def main() -> None:
         adc.set_channel_config(channel=1, setup=0, ainp=1, ainm=2)
         for i in range(16):
             adc.read_channel_config(i)
+
+        for i in range(16):
+            data = adc.read_data()
+            adc.read_die_temp(data)
             
-        ch0_data = adc.read_data()
-        ch1_data = adc.read_data()
-        ch2_data = adc.read_data()
-        adc.read_die_temp(ch0_data)
-        adc.read_die_temp(ch1_data)
-        adc.read_die_temp(ch2_data)
+        # ch0_data = adc.read_data()
+        # ch1_data = adc.read_data()
+        # ch2_data = adc.read_data()
+        # adc.read_die_temp(ch0_data)
+        # adc.read_die_temp(ch1_data)
+        # adc.read_die_temp(ch2_data)
     
     adc.close()
     
