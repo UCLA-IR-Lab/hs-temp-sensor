@@ -200,6 +200,12 @@ class AD7124:
         io_control_config = AD7124_IO_CTRL1_REG_IOUT0(4) | AD7124_IO_CTRL1_REG_IOUT0_CH(0)
         self.spi.xfer2([comms_write, (io_control_config >> 16) & 0xFF, (io_control_config >> 8) & 0xFF, io_control_config & 0xFF])
         logger.debug("IO {} Configured: 0x{:04X}".format(io_channel, io_control_config))
+        
+    def test_conversion(self, data):
+        resistor_rtd = (data * 5.11*10**3) / (32 * 2**23)
+        logger.info("RTD Resistance: {:.2f} Ohms".format(resistor_rtd))
+        
+        return resistor_rtd
     
     def _channel_selector(self, channel):
         match channel:
