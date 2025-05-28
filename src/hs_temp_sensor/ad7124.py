@@ -68,7 +68,7 @@ AD7124_CH_MAP_REG_CH_ENABLE = 1 << 15
 AD7124_CH_MAP_REG_CH_DISABLE = 0 << 15
 AD7124_CH_MAP_REG_SETUP = lambda x : (x & 0x07) << 12
 AD7124_CH_MAP_REG_AINP = lambda x : (x & 0x1F) << 5
-AD7124_CH_MAP_REG_AINN = lambda x : (x & 0x1F)
+AD7124_CH_MAP_REG_AINM = lambda x : (x & 0x1F)
 
 class AD7124:
     def __init__(self):
@@ -117,11 +117,12 @@ class AD7124:
         adc_control_reg = response[-2] << 8 | response[-1]
         logger.debug("ADC Configuration: 0x{:04X}".format(adc_control_reg))
         
-    def set_channel_config(self, channel=0):
-        comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_CH0_MAP_REG)
-        channel_config = AD7124_CH_MAP_REG_CH_ENABLE | AD7124_CH_MAP_REG_SETUP(0) | AD7124_CH_MAP_REG_AINP(16) | AD7124_CH_MAP_REG_AINN(17)
+    def set_channel_config(self, channel=0, setup=0, ainp=16, ainm=17):
+        channel_reg = self._channel_selector(channel)
+        comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(channel_reg)
+        channel_config = AD7124_CH_MAP_REG_CH_ENABLE | AD7124_CH_MAP_REG_SETUP(0) | AD7124_CH_MAP_REG_AINP(ainp) | AD7124_CH_MAP_REG_AINM(ainm)
         self.spi.xfer2([comms_write, (channel_config >> 8) & 0xFF, channel_config & 0xFF])
-        logger.debug("Channel {} Configured".format(channel))
+        logger.debug("Channel {} Configured: 0x{:04X}".format(channel, channel_config))
     
     def read_channel_config(self, channel=0):
         channel_reg = self._channel_selector(channel)

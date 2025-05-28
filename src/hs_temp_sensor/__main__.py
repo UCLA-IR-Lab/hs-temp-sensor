@@ -64,6 +64,10 @@ def main() -> None:
         for i in range(16):
             adc.read_channel_config(i)
         adc.read_io_control(io_channel=1)
+        adc.set_channel_config(channel=0, setup=0, ainp=16, ainm=17)
+        adc.set_channel_config(channel=1, setup=0, ainp=1, ainm=2)
+        for i in range(16):
+            adc.read_channel_config(i)
     
     adc.close()
     
