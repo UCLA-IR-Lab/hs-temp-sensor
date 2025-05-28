@@ -61,6 +61,7 @@ def main() -> None:
     
     if args.test:
         adc.initialize()
+        adc.read_io_control(io_channel=1)
     
     adc.close()
     

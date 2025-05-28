@@ -43,6 +43,8 @@ AD7124_IO_CTRL1_REG_IOUT0 = lambda x : (x & 0x07) << 8
 AD7124_IO_CTRL1_REG_IOUT1_CH = lambda x : (x & 0x0F) << 4
 AD7124_IO_CTRL1_REG_IOUT0_CH = lambda x : (x & 0x0F)
 
+AD7124_IO_CTRL2_REG = 0x04
+
 AD7124_ID_REG = 0x05
 AD7124_ERR_REG = 0x06
 
@@ -126,3 +128,20 @@ class AD7124:
         logger.info("Die Temperature: {:.5f} °C".format(die_temp))
         
         return die_temp
+    
+    def read_io_control(self, io_channel=1):
+        match io_channel:
+            case 1:
+                comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_IO_CTRL1_REG)
+            case 2:
+                comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_IO_CTRL2_REG)
+            case _:
+                logger.error("Invalid IO channel specified")
+                return None
+        
+        response = self.spi.xfer2([comms_write, 0x00, 0x00, 0x00])
+        io_control_reg = (response[-3] << 16) | (response[-2] << 8) | response[-1]
+        logger.info("IO Control {}: 0x{:06X}".format(io_channel, io_control_reg))
+        
+        return io_control_reg
+            
