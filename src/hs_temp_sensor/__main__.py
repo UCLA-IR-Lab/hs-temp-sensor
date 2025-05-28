@@ -70,8 +70,12 @@ def main() -> None:
         for i in range(16):
             adc.read_channel_config(i)
             
-        for _ in range(16):
-            adc.read_data()
+        ch0_data = adc.read_data()
+        ch1_data = adc.read_data()
+        ch2_data = adc.read_data()
+        adc.read_die_temp(ch0_data)
+        adc.read_die_temp(ch1_data)
+        adc.read_die_temp(ch2_data)
     
     adc.close()
     
