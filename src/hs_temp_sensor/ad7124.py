@@ -49,6 +49,21 @@ AD7124_ID_REG = 0x05
 AD7124_ERR_REG = 0x06
 
 AD7124_CH0_MAP_REG = 0x09
+AD7124_CH1_MAP_REG = 0x0A
+AD7124_CH2_MAP_REG = 0x0B
+AD7124_CH3_MAP_REG = 0x0C
+AD7124_CH4_MAP_REG = 0x0D
+AD7124_CH5_MAP_REG = 0x0E
+AD7124_CH6_MAP_REG = 0x0F
+AD7124_CH7_MAP_REG = 0x10
+AD7124_CH8_MAP_REG = 0x11
+AD7124_CH9_MAP_REG = 0x12
+AD7124_CH10_MAP_REG = 0x13
+AD7124_CH11_MAP_REG = 0x14
+AD7124_CH12_MAP_REG = 0x15
+AD7124_CH13_MAP_REG = 0x16
+AD7124_CH14_MAP_REG = 0x17
+AD7124_CH15_MAP_REG = 0x18
 AD7124_CH_MAP_REG_CH_ENABLE = 1 << 15
 AD7124_CH_MAP_REG_CH_DISABLE = 0 << 15
 AD7124_CH_MAP_REG_SETUP = lambda x : (x & 0x07) << 12
@@ -109,7 +124,8 @@ class AD7124:
         logger.debug("Channel {} Configured".format(channel))
     
     def read_channel_config(self, channel=0):
-        comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_CH0_MAP_REG)
+        channel_reg = self._channel_selector(channel)
+        comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(channel_reg)
         response = self.spi.xfer2([comms_write, 0x00, 0x00])
         channel_config_reg = response[-2] << 8 | response[-1]
         logger.debug("Channel {} Configuration: 0x{:04X}".format(channel, channel_config_reg))
@@ -144,4 +160,42 @@ class AD7124:
         logger.info("IO Control {}: 0x{:06X}".format(io_channel, io_control_reg))
         
         return io_control_reg
+    
+    def _channel_selector(self, channel):
+        match channel:
+            case 0:
+                return AD7124_CH0_MAP_REG
+            case 1:
+                return AD7124_CH1_MAP_REG
+            case 2:
+                return AD7124_CH2_MAP_REG
+            case 3:
+                return AD7124_CH3_MAP_REG
+            case 4:
+                return AD7124_CH4_MAP_REG
+            case 5:
+                return AD7124_CH5_MAP_REG
+            case 6:
+                return AD7124_CH6_MAP_REG
+            case 7:
+                return AD7124_CH7_MAP_REG
+            case 8:
+                return AD7124_CH8_MAP_REG
+            case 9:
+                return AD7124_CH9_MAP_REG
+            case 10:
+                return AD7124_CH10_MAP_REG
+            case 11:
+                return AD7124_CH11_MAP_REG
+            case 12:
+                return AD7124_CH12_MAP_REG
+            case 13:
+                return AD7124_CH13_MAP_REG
+            case 14:
+                return AD7124_CH14_MAP_REG
+            case 15:
+                return AD7124_CH15_MAP_REG
+            case _:
+                logger.error("Invalid channel specified")
+                return None
             

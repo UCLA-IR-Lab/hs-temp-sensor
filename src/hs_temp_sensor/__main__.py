@@ -61,6 +61,8 @@ def main() -> None:
     
     if args.test:
         adc.initialize()
+        for i in range(15):
+            adc.read_adc_config(i)
         adc.read_io_control(io_channel=1)
     
     adc.close()
