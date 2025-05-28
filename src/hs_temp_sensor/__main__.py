@@ -71,7 +71,7 @@ def main() -> None:
         
         
         adc.set_adc_config()
-        # adc.set_config(cfg_channel=0)
+        adc.set_config(cfg_channel=0)
         adc.set_channel_config(channel=0, setup=0, ainp=16, ainm=17)
         adc.set_channel_config(channel=1, setup=0, ainp=1, ainm=2)
         adc.set_io_control(io_channel=1)
