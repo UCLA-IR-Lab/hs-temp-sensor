@@ -202,7 +202,7 @@ class AD7124:
         logger.debug("IO {} Configured: 0x{:04X}".format(io_channel, io_control_config))
         
     def test_conversion(self, data):
-        resistor_rtd = (data * 5.11*10**3) / (32 * 2**23)
+        resistor_rtd = (data * 5.11*10**3) / (32 * 2**24)
         logger.info("RTD Resistance: {:.2f} Ohms".format(resistor_rtd))
         
         return resistor_rtd
