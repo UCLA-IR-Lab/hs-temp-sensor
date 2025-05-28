@@ -105,7 +105,7 @@ class AD7124:
     def read_status(self):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN | AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_STATUS_REG)
         response = self.spi.xfer2([comms_write, 0x00])
-        status_register = response & 0xFF
+        status_register = response[-1] & 0xFF
         logger.debug("Status Register: 0x{:02X}".format(status_register))
         
         return status_register
