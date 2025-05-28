@@ -132,7 +132,7 @@ class AD7124:
     
     def set_adc_config(self):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_ADC_CTRL_REG)
-        adc_config = AD7124_ADC_CTRL_REG_DOUT_RDY_DEL | AD7124_ADC_CTRL_REG_DATA_STATUS | AD7124_ADC_CTRL_REG_POWER_MODE(3) | AD7124_ADC_CTRL_REG_MODE(0) | AD7124_ADC_CTRL_REG_CLK_SEL(0)
+        adc_config = AD7124_ADC_CTRL_REG_DOUT_RDY_DEL | AD7124_ADC_CTRL_REG_DATA_STATUS | AD7124_ADC_CTRL_REG_REF_EN | AD7124_ADC_CTRL_REG_POWER_MODE(3) | AD7124_ADC_CTRL_REG_MODE(0) | AD7124_ADC_CTRL_REG_CLK_SEL(0)
         self.spi.xfer2([comms_write, (adc_config >> 8) & 0xFF, adc_config & 0xFF])
         logger.debug("ADC Configured")
         
@@ -202,7 +202,7 @@ class AD7124:
         logger.debug("IO {} Configured: 0x{:04X}".format(io_channel, io_control_config))
         
     def test_conversion(self, data):
-        resistor_rtd = (data * 5.11*10**3) / (32 * 2**24)
+        resistor_rtd = (data * 5.11*10**3) / (32 * 2**23)
         logger.info("RTD Resistance: {:.2f} Ohms".format(resistor_rtd))
         
         return resistor_rtd
