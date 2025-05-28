@@ -70,6 +70,17 @@ AD7124_CH_MAP_REG_SETUP = lambda x : (x & 0x07) << 12
 AD7124_CH_MAP_REG_AINP = lambda x : (x & 0x1F) << 5
 AD7124_CH_MAP_REG_AINM = lambda x : (x & 0x1F)
 
+AD7124_CFG0_REG = 0x19
+AD7124_CFG_REG_BIPOLAR = 1 << 11
+AD7124_CFG_REG_BURNOUT = lambda x : (x & 0x03) << 9
+AD7124_CFG_REG_REF_BUFP = 1 << 8
+AD7124_CFG_REG_REF_BUFM = 1 << 7
+AD7124_CFG_REG_AIN_BUFP = 1 << 6
+AD7124_CFG_REG_AIN_BUFM = 1 << 5
+AD7124_CFG_REG_REF_SEL = lambda x : (x & 0x03) << 3
+AD7124_CFG_REG_PGA = lambda x : (x & 0x07)
+
+
 class AD7124:
     def __init__(self):
         self.spi = spidev.SpiDev()
@@ -101,9 +112,17 @@ class AD7124:
         
         return id_register, device_id, silicon_rev
     
-    def configure(self, channel, setup, ainp, ainm):
+    def configure(self):
         self.set_adc_config()
-        self.set_channel_config(channel, setup, ainp, ainm)
+        self.set_channel_config()
+        
+    def read_config(self, cfg_channel=0):
+        comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_CFG0_REG)
+        response = self.spi.xfer2([comms_write, 0x00, 0x00])
+        config_reg = (response[-2] << 8) | response[-1]
+        logger.debug("Configuration Register {}: 0x{:04X}".format(cfg_channel, config_reg))
+        
+        return config_reg
     
     def set_adc_config(self):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_ADC_CTRL_REG)
@@ -161,6 +180,20 @@ class AD7124:
         logger.info("IO Control {}: 0x{:06X}".format(io_channel, io_control_reg))
         
         return io_control_reg
+    
+    def set_io_control(self, io_channel=1):
+        match io_channel:
+            case 1:
+                comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_IO_CTRL1_REG)
+            case 2:
+                comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_IO_CTRL2_REG)
+            case _:
+                logger.error("Invalid IO channel specified")
+                return None
+            
+        io_control_config = AD7124_IO_CTRL1_REG_IOUT0(4) | AD7124_IO_CTRL1_REG_IOUT0_CH(0)
+        self.spi.xfer2([comms_write, (io_control_config >> 16) & 0xFF, (io_control_config >> 8) & 0xFF, io_control_config & 0xFF])
+        logger.debug("IO {} Configured: 0x{:04X}".format(io_channel, io_control_config))
     
     def _channel_selector(self, channel):
         match channel:
