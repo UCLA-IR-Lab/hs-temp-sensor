@@ -82,7 +82,7 @@ def main() -> None:
         adc.set_channel_config(channel=2, setup=0, ainp=5, ainm=6)
         adc.set_channel_config(channel=3, setup=0, ainp=9, ainm=10)
         adc.set_channel_config(channel=4, setup=0, ainp=12, ainm=13)
-        adc.set_channel_config(channel=5, setup=0, ainp=19, ainm=19)
+        adc.set_channel_config(channel=5, setup=0, ainp=16, ainm=17)
         adc.set_io_control(io_channel=1)
         # for i in range(16):
         #     adc.read_channel_config(i)
@@ -121,7 +121,8 @@ def main() -> None:
         adc.test_conversion(ch2_data)
         adc.test_conversion(ch3_data)
         adc.test_conversion(ch4_data)
-        adc.test_conversion(ch5_data)
+        # adc.test_conversion(ch5_data)
+        adc.read_die_temp(ch5_data)
     
     adc.close()
     
