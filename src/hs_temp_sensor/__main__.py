@@ -68,13 +68,21 @@ def main() -> None:
         adc.read_config(cfg_channel=0)
         adc.read_channel_config(0)
         adc.read_channel_config(1)
+        # adc.read_channel_config(2)
+        # adc.read_channel_config(3)
+        # adc.read_channel_config(4)
+        # adc.read_channel_config(5)
         adc.read_io_control(io_channel=1)
         
         
         adc.set_adc_config()
         adc.set_config(cfg_channel=0)
         adc.set_channel_config(channel=0, setup=0, ainp=16, ainm=17)
-        adc.set_channel_config(channel=1, setup=0, ainp=1, ainm=2)
+        adc.set_channel_config(channel=1, setup=0, ainp=2, ainm=3)
+        # adc.set_channel_config(channel=2, setup=0, ainp=1, ainm=2)
+        # adc.set_channel_config(channel=3, setup=0, ainp=1, ainm=2)
+        # adc.set_channel_config(channel=4, setup=0, ainp=1, ainm=2)
+        # adc.set_channel_config(channel=5, setup=0, ainp=1, ainm=2)
         adc.set_io_control(io_channel=1)
         # for i in range(16):
         #     adc.read_channel_config(i)
@@ -83,6 +91,10 @@ def main() -> None:
         adc.read_config(cfg_channel=0)
         adc.read_channel_config(0)
         adc.read_channel_config(1)
+        # adc.read_channel_config(2)
+        # adc.read_channel_config(3)
+        # adc.read_channel_config(4)
+        # adc.read_channel_config(5)
         adc.read_io_control(io_channel=1)
 
         # for i in range(16):
