@@ -70,7 +70,7 @@ def main() -> None:
         adc.read_channel_config(1)
         adc.read_channel_config(2)
         adc.read_channel_config(3)
-        # adc.read_channel_config(4)
+        adc.read_channel_config(4)
         # adc.read_channel_config(5)
         adc.read_io_control(io_channel=1)
         
@@ -81,7 +81,7 @@ def main() -> None:
         adc.set_channel_config(channel=1, setup=0, ainp=2, ainm=3)
         adc.set_channel_config(channel=2, setup=0, ainp=5, ainm=6)
         adc.set_channel_config(channel=3, setup=0, ainp=9, ainm=10)
-        # adc.set_channel_config(channel=4, setup=0, ainp=1, ainm=2)
+        adc.set_channel_config(channel=4, setup=0, ainp=12, ainm=13)
         # adc.set_channel_config(channel=5, setup=0, ainp=1, ainm=2)
         adc.set_io_control(io_channel=1)
         # for i in range(16):
@@ -93,7 +93,7 @@ def main() -> None:
         adc.read_channel_config(1)
         adc.read_channel_config(2)
         adc.read_channel_config(3)
-        # adc.read_channel_config(4)
+        adc.read_channel_config(4)
         # adc.read_channel_config(5)
         adc.read_io_control(io_channel=1)
 
@@ -109,6 +109,8 @@ def main() -> None:
         adc.read_status()
         ch3_data = adc.read_data()
         adc.read_status()
+        ch4_data = adc.read_data()
+        adc.read_status()
         # ch2_data = adc.read_data()
         adc.read_die_temp(ch0_data)
         # adc.read_die_temp(ch1_data)
@@ -116,6 +118,7 @@ def main() -> None:
         adc.test_conversion(ch1_data)
         adc.test_conversion(ch2_data)
         adc.test_conversion(ch3_data)
+        adc.test_conversion(ch4_data)
     
     adc.close()
     
