@@ -129,7 +129,7 @@ class AD7124:
         
     def set_config(self, cfg_channel=0):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_CFG0_REG)
-        config_reg = AD7124_CFG_REG_BIPOLAR | AD7124_CFG_REG_AIN_BUFP | AD7124_CFG_REG_AIN_BUFM | AD7124_CFG_REG_REF_SEL(2) | AD7124_CFG_REG_PGA(5)
+        config_reg = AD7124_CFG_REG_BIPOLAR | AD7124_CFG_REG_AIN_BUFP | AD7124_CFG_REG_AIN_BUFM | AD7124_CFG_REG_REF_SEL(2) | AD7124_CFG_REG_PGA(4)
         self.spi.xfer2([comms_write, (config_reg >> 8) & 0xFF, config_reg & 0xFF])
         logger.debug("Configuration Register {} set to: 0x{:04X}".format(cfg_channel, config_reg))
         
@@ -214,7 +214,7 @@ class AD7124:
         logger.debug("IO {} Configured: 0x{:04X}".format(io_channel, io_control_config))
         
     def test_conversion(self, data):
-        resistor_rtd = ((data - 2**23) * 5.11*10**3) / (32 * 2**23)
+        resistor_rtd = ((data - 2**23) * 5.11*10**3) / (16 * 2**23)
         logger.info("RTD Resistance: {:.2f} Ohms".format(resistor_rtd))
         
         return resistor_rtd
