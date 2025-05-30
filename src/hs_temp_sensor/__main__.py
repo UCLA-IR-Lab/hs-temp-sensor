@@ -75,21 +75,15 @@ def main() -> None:
         adc.read_io_control(io_control=1)
         
         
-        # adc.set_adc_config()
-        # adc.set_config(cfg_channel=0)
-        
-        adc.reset()
         adc.set_adc_config()
         adc.set_config(cfg_channel=0)
+        
         adc.read_status()
         adc.set_channel_config(channel=0, setup=0, ainp=16, ainm=17)
         adc.read_status()
         ch0_data = adc.read_data()
         adc.set_channel_config(channel=0, disable=True)
         
-        adc.reset()
-        adc.set_adc_config()
-        adc.set_config(cfg_channel=0)
         adc.read_status()
         adc.set_io_control(iout0_ch=1, io_control=1)
         adc.set_channel_config(channel=1, setup=0, ainp=2, ainm=3)
@@ -97,9 +91,6 @@ def main() -> None:
         ch1_data = adc.read_data()
         adc.set_channel_config(channel=1, disable=True)
         
-        adc.reset()
-        adc.set_adc_config()
-        adc.set_config(cfg_channel=0)
         adc.read_status()
         adc.set_io_control(iout0_ch=4, io_control=1)
         adc.set_channel_config(channel=2, setup=0, ainp=5, ainm=6)
@@ -107,7 +98,6 @@ def main() -> None:
         ch2_data = adc.read_data()
         adc.set_channel_config(channel=2, disable=True)
         
-        adc.reset()
         adc.read_status()
         adc.set_io_control(iout0_ch=8, io_control=1)
         adc.set_channel_config(channel=3, setup=0, ainp=9, ainm=10)
@@ -115,9 +105,6 @@ def main() -> None:
         ch3_data = adc.read_data()
         adc.set_channel_config(channel=3, disable=True)
         
-        adc.reset()
-        adc.set_adc_config()
-        adc.set_config(cfg_channel=0)
         adc.read_status()
         adc.set_io_control(iout0_ch=11, io_control=1)
         adc.set_channel_config(channel=4, setup=0, ainp=12, ainm=13)
