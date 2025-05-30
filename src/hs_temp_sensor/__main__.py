@@ -126,15 +126,15 @@ def main() -> None:
         # for i in range(16):
         #     adc.read_channel_config(i)
         
-        adc.read_adc_config()
-        adc.read_config(cfg_channel=0)
-        adc.read_channel_config(0)
-        adc.read_channel_config(1)
-        adc.read_channel_config(2)
-        adc.read_channel_config(3)
-        adc.read_channel_config(4)
+        # adc.read_adc_config()
+        # adc.read_config(cfg_channel=0)
+        # adc.read_channel_config(0)
+        # adc.read_channel_config(1)
+        # adc.read_channel_config(2)
+        # adc.read_channel_config(3)
+        # adc.read_channel_config(4)
         # adc.read_channel_config(5)
-        adc.read_io_control(io_control=1)
+        # adc.read_io_control(io_control=1)
 
         # for i in range(16):
         #     data = adc.read_data()
