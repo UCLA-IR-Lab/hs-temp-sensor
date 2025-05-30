@@ -77,10 +77,22 @@ def main() -> None:
         
         adc.set_adc_config()
         adc.set_config(cfg_channel=0)
-        adc.set_io_control(io_channel=1)
+        
+        adc.set_io_control(iout0_ch=1, io_channel=1)
         adc.set_channel_config(channel=0, setup=0, ainp=16, ainm=17)
+        ch0_data = adc.read_data()
+        adc.read_status()
+        
+        adc.set_io_control(iout0_ch=4, io_channel=1)
         adc.set_channel_config(channel=1, setup=0, ainp=2, ainm=3)
+        ch1_data = adc.read_data()
+        adc.read_status()
+        
+        adc.set_io_control(iout0_ch=8, io_channel=1)
         adc.set_channel_config(channel=2, setup=0, ainp=5, ainm=6)
+        ch2_data = adc.read_data()
+        adc.read_status()
+        
         # adc.set_channel_config(channel=3, setup=0, ainp=9, ainm=10)
         # adc.set_channel_config(channel=4, setup=0, ainp=12, ainm=13)
         # adc.set_channel_config(channel=5, setup=0, ainp=18, ainm=18)
@@ -111,12 +123,12 @@ def main() -> None:
         #     adc.read_die_temp(data)
         #     adc.test_conversion(data)
             
-        ch0_data = adc.read_data()
-        adc.read_status()
-        ch1_data = adc.read_data()
-        adc.read_status()
-        ch2_data = adc.read_data()
-        adc.read_status()
+        # ch0_data = adc.read_data()
+        # adc.read_status()
+        # ch1_data = adc.read_data()
+        # adc.read_status()
+        # ch2_data = adc.read_data()
+        # adc.read_status()
         # ch3_data = adc.read_data()
         # adc.read_status()
         # ch4_data = adc.read_data()

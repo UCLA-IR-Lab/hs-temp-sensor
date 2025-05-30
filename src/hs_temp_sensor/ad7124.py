@@ -199,8 +199,8 @@ class AD7124:
         
         return io_control_reg
     
-    def set_io_control(self, io_channel=1):
-        match io_channel:
+    def set_io_control(self, iout0_ch, io_control=1):
+        match io_control:
             case 1:
                 comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_IO_CTRL1_REG)
             case 2:
@@ -209,9 +209,9 @@ class AD7124:
                 logger.error("Invalid IO channel specified")
                 return None
             
-        io_control_config = AD7124_IO_CTRL1_REG_IOUT0(4) | AD7124_IO_CTRL1_REG_IOUT0_CH(1)
+        io_control_config = AD7124_IO_CTRL1_REG_IOUT0(4) | AD7124_IO_CTRL1_REG_IOUT0_CH(iout0_ch)
         self.spi.xfer2([comms_write, (io_control_config >> 16) & 0xFF, (io_control_config >> 8) & 0xFF, io_control_config & 0xFF])
-        logger.debug("IO {} Configured: 0x{:04X}".format(io_channel, io_control_config))
+        logger.debug("IO {} Configured: 0x{:04X}".format(io_control, io_control_config))
         
     def test_conversion(self, data):
         resistor_rtd = ((data - 2**23) * 5.11*10**3) / (16 * 2**23)
