@@ -81,7 +81,7 @@ def main() -> None:
         adc.set_channel_config(channel=0, setup=0, ainp=16, ainm=17)
         adc.set_io_control(iout0_ch=1, io_control=1)
         adc.set_channel_config(channel=1, setup=0, ainp=2, ainm=3)
-        adc.set_io_control(iout0_ch=4, io_control=1)
+        # adc.set_io_control(iout0_ch=4, io_control=1)
         # adc.set_channel_config(channel=2, setup=0, ainp=5, ainm=6)
         # adc.set_io_control(iout0_ch=8, io_control=1)
         # adc.set_channel_config(channel=3, setup=0, ainp=9, ainm=10)
