@@ -79,26 +79,31 @@ def main() -> None:
         adc.set_config(cfg_channel=0)
         
         adc.set_channel_config(channel=0, setup=0, ainp=16, ainm=17)
+        print("Data for channel 0:")
         ch0_data = adc.read_data()
         adc.read_status()
         
         adc.set_io_control(iout0_ch=1, io_control=1)
         adc.set_channel_config(channel=1, setup=0, ainp=2, ainm=3)
+        print("Data for channel 1:")
         ch1_data = adc.read_data()
         adc.read_status()
         
         adc.set_io_control(iout0_ch=4, io_control=1)
         adc.set_channel_config(channel=2, setup=0, ainp=5, ainm=6)
+        print("Data for channel 2:")
         ch2_data = adc.read_data()
         adc.read_status()
         
         adc.set_io_control(iout0_ch=8, io_control=1)
         adc.set_channel_config(channel=2, setup=0, ainp=9, ainm=10)
+        print("Data for channel 3:")
         ch3_data = adc.read_data()
         adc.read_status()
         
         adc.set_io_control(iout0_ch=11, io_control=1)
         adc.set_channel_config(channel=2, setup=0, ainp=12, ainm=13)
+        print("Data for channel 4:")
         ch4_data = adc.read_data()
         adc.read_status()
         
