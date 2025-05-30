@@ -183,8 +183,8 @@ class AD7124:
         
         return die_temp
     
-    def read_io_control(self, io_channel=1):
-        match io_channel:
+    def read_io_control(self, io_control=1):
+        match io_control:
             case 1:
                 comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_IO_CTRL1_REG)
             case 2:
@@ -195,7 +195,7 @@ class AD7124:
         
         response = self.spi.xfer2([comms_write, 0x00, 0x00, 0x00])
         io_control_reg = (response[-3] << 16) | (response[-2] << 8) | response[-1]
-        logger.info("IO Control {}: 0x{:06X}".format(io_channel, io_control_reg))
+        logger.info("IO Control {}: 0x{:06X}".format(io_control, io_control_reg))
         
         return io_control_reg
     
