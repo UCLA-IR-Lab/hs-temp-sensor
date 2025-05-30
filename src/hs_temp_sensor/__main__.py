@@ -89,18 +89,23 @@ def main() -> None:
         adc.set_channel_config(channel=4, setup=0, ainp=12, ainm=13)
         
         ch0_data = adc.read_data()
+        adc.read_status()
         # adc.set_channel_config(channel=0, disable=True)
     
         ch1_data = adc.read_data()
+        adc.read_status()
         # adc.set_channel_config(channel=1, disable=True)
         
         ch2_data = adc.read_data()
+        adc.read_status()
         # adc.set_channel_config(channel=2, disable=True)
         
         ch3_data = adc.read_data()
+        adc.read_status()
         # adc.set_channel_config(channel=3, disable=True)
         
         ch4_data = adc.read_data()
+        adc.read_status()
         # adc.set_channel_config(channel=4, disable=True)
         
         # adc.set_channel_config(channel=3, setup=0, ainp=9, ainm=10)
