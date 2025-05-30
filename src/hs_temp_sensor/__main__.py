@@ -101,9 +101,11 @@ def main() -> None:
         adc.read_status()
         adc.set_channel_config(channel=3, disable=True)
         
-        
-        # adc.set_io_control(iout0_ch=11, io_control=1)
-        # adc.set_channel_config(channel=4, setup=0, ainp=12, ainm=13)
+        adc.set_io_control(iout0_ch=11, io_control=1)
+        adc.set_channel_config(channel=4, setup=0, ainp=12, ainm=13)
+        ch4_data = adc.read_data()
+        adc.read_status()
+        adc.set_channel_config(channel=4, disable=True)
         
         # adc.set_adc_config()
         # adc.set_config(cfg_channel=0)
@@ -177,7 +179,7 @@ def main() -> None:
         adc.test_conversion(ch1_data)
         adc.test_conversion(ch2_data)
         adc.test_conversion(ch3_data)
-        # adc.test_conversion(ch4_data)
+        adc.test_conversion(ch4_data)
         # # adc.test_conversion(ch5_data)
         # adc.read_die_temp(ch5_data)
     
