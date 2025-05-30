@@ -75,8 +75,8 @@ def main() -> None:
         # adc.read_io_control(io_control=1)
         
         
-        adc.set_adc_config()
-        adc.set_config(cfg_channel=0)
+        # adc.set_adc_config()
+        # adc.set_config(cfg_channel=0)
         
         adc.set_channel_config(channel=0, setup=0, ainp=16, ainm=17)
         adc.set_io_control(iout0_ch=1, io_control=1)
@@ -87,6 +87,9 @@ def main() -> None:
         adc.set_channel_config(channel=3, setup=0, ainp=9, ainm=10)
         adc.set_io_control(iout0_ch=11, io_control=1)
         adc.set_channel_config(channel=4, setup=0, ainp=12, ainm=13)
+        
+        adc.set_adc_config()
+        adc.set_config(cfg_channel=0)
         
         ch0_data = adc.read_data()
         adc.read_status()
