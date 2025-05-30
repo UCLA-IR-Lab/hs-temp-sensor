@@ -63,54 +63,45 @@ def main() -> None:
         adc.initialize()
         # for i in range(16):
         #     adc.read_channel_config(i)
-        adc.read_status()
-        adc.read_adc_config()
-        adc.read_config(cfg_channel=0)
-        adc.read_channel_config(0)
-        adc.read_channel_config(1)
-        adc.read_channel_config(2)
-        adc.read_channel_config(3)
-        adc.read_channel_config(4)
+        # adc.read_status()
+        # adc.read_adc_config()
+        # adc.read_config(cfg_channel=0)
+        # adc.read_channel_config(0)
+        # adc.read_channel_config(1)
+        # adc.read_channel_config(2)
+        # adc.read_channel_config(3)
+        # adc.read_channel_config(4)
         # adc.read_channel_config(5)
-        adc.read_io_control(io_control=1)
+        # adc.read_io_control(io_control=1)
         
         
         adc.set_adc_config()
         adc.set_config(cfg_channel=0)
         
-        adc.read_status()
         adc.set_channel_config(channel=0, setup=0, ainp=16, ainm=17)
-        adc.read_status()
-        ch0_data = adc.read_data()
-        adc.set_channel_config(channel=0, disable=True)
-        
-        adc.read_status()
         adc.set_io_control(iout0_ch=1, io_control=1)
         adc.set_channel_config(channel=1, setup=0, ainp=2, ainm=3)
-        adc.read_status()
-        ch1_data = adc.read_data()
-        adc.set_channel_config(channel=1, disable=True)
-        
-        adc.read_status()
         adc.set_io_control(iout0_ch=4, io_control=1)
         adc.set_channel_config(channel=2, setup=0, ainp=5, ainm=6)
-        adc.read_status()
-        ch2_data = adc.read_data()
-        adc.set_channel_config(channel=2, disable=True)
-        
-        adc.read_status()
         adc.set_io_control(iout0_ch=8, io_control=1)
         adc.set_channel_config(channel=3, setup=0, ainp=9, ainm=10)
-        adc.read_status()
-        ch3_data = adc.read_data()
-        adc.set_channel_config(channel=3, disable=True)
-        
-        adc.read_status()
         adc.set_io_control(iout0_ch=11, io_control=1)
         adc.set_channel_config(channel=4, setup=0, ainp=12, ainm=13)
-        adc.read_status()
+        
+        ch0_data = adc.read_data()
+        # adc.set_channel_config(channel=0, disable=True)
+    
+        ch1_data = adc.read_data()
+        # adc.set_channel_config(channel=1, disable=True)
+        
+        ch2_data = adc.read_data()
+        # adc.set_channel_config(channel=2, disable=True)
+        
+        ch3_data = adc.read_data()
+        # adc.set_channel_config(channel=3, disable=True)
+        
         ch4_data = adc.read_data()
-        adc.set_channel_config(channel=4, disable=True)
+        # adc.set_channel_config(channel=4, disable=True)
         
         # adc.set_channel_config(channel=3, setup=0, ainp=9, ainm=10)
         # adc.set_channel_config(channel=4, setup=0, ainp=12, ainm=13)
