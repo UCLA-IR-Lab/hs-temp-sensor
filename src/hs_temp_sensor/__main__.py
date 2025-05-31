@@ -182,7 +182,8 @@ def main() -> None:
         adc.test_conversion(ch4_data)
         # # adc.test_conversion(ch5_data)
         # adc.read_die_temp(ch5_data)
-    
+        adc.reset()
+        
     adc.close()
     
 if __name__ == "__main__":
