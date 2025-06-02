@@ -61,6 +61,7 @@ def main() -> None:
         return
     
     if args.test:
+        print("Running test sequence...")
         adc.initialize()
         # for i in range(16):
         #     adc.read_channel_config(i)
