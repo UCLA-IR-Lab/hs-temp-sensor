@@ -30,7 +30,6 @@ def main() -> None:
     )
 
     adc = ad7124.AD7124(args.device)
-    print(args.device)
     adc.connect()
     
     if args.reset:
