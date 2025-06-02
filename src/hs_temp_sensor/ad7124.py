@@ -84,11 +84,12 @@ AD7124_CFG_REG_PGA = lambda x : (x & 0x07)
 
 
 class AD7124:
-    def __init__(self):
+    def __init__(self, device=0):
         self.spi = spidev.SpiDev()
+        self.spi_device = device
         
     def connect(self):
-        self.spi.open(AD7124_SPI_BUS, AD7124_SPI_DEVICE)
+        self.spi.open(AD7124_SPI_BUS, self.spi_device)
         self.spi.mode = AD7124_SPI_MODE
         self.spi.max_speed_hz = AD7124_SPI_MAX_SPEED
         

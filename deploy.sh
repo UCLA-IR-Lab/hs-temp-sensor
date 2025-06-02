@@ -1,7 +1,7 @@
 #! /usr/bin/bash
 
-short_opt_str=':vrih'
-long_opt_str=':verbose,reset,id,temp,test,help'
+short_opt_str=':vdrih'
+long_opt_str=':verbose,device,reset,id,temp,test,help'
 
 VALID_ARGS=$(getopt -o "$short_opt_str" -l "$long_opt_str" -- "$@")
 if [ $? -ne 0 ]; then
@@ -13,24 +13,34 @@ eval set -- "$VALID_ARGS"
 while true; do
     case "$1" in
     '-v'|'--verbose')
-        COMMAND="uv run src/hs_temp_sensor -vvvv"
-        break
-        ;;  
+        VERBOSE=true
+        # break
+        shift
+        ;;
+    '-d'|'--device')
+        OPT="-d $2"
+        # break
+        shift 2
+        ;;
     '-r'|'--reset')
-        COMMAND="uv run src/hs_temp_sensor -r -vvvv"
-        break
+        OPT="-r"
+        # break
+        shift
         ;;
     '-i'|'--id')
-        COMMAND="uv run src/hs_temp_sensor --id -vvvv"
-        break
+        OPT="--id"
+        # break
+        shift
         ;;
     '--temp')
-        COMMAND="uv run src/hs_temp_sensor --temp -vvvv"
-        break
+        OPT="--temp"
+        # break
+        shift
         ;;
     '--test')
-        COMMAND="uv run src/hs_temp_sensor --test -vvvv"
-        break
+        OPT="--test"
+        # break
+        shift
         ;;
     '--')
         shift
@@ -48,6 +58,12 @@ PRECOMMANDS="source $HOME/.profile &&"
 PRECOMMANDS+="cd $HOME/hs-temp-sensor &&"
 PRECOMMANDS+="git pull > /dev/null 2>&1 &&"
 PRECOMMANDS+="uv sync > /dev/null 2>&1 &&"
+
+if [ "$VERBOSE" = true ]; then
+    COMMAND="uv run src/hs_temp_sensor -vvvv $OPT"
+else
+    COMMAND="uv run src/hs_temp_sensor $OPT"
+fi
 
 ssh $SERVER $PRECOMMANDS $COMMAND;
 
