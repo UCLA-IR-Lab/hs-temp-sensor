@@ -243,11 +243,17 @@ class AD7124:
         self.spi.xfer2([comms_write, (io_control_config >> 16) & 0xFF, (io_control_config >> 8) & 0xFF, io_control_config & 0xFF])
         logger.debug("IO {} Configured: 0x{:04X}".format(io_control, io_control_config))
         
-    def test_conversion(self, data):
+    def rtd_test_conversion(self, data):
         resistor_rtd = ((data - 2**23) * 5.11*10**3) / (16 * 2**23)
         logger.info("RTD Resistance: {:.2f} Ohms".format(resistor_rtd))
         
         return resistor_rtd
+    
+    def sd_test_conversion(self, data):
+        sd_voltage = ((data - 2**23) / 2**23) * 2.5
+        logger.info("SD Voltage: {:.5f} V".format(sd_voltage))
+        
+        return sd_voltage
     
     def _channel_selector(self, channel):
         match channel:

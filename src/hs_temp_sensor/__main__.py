@@ -112,11 +112,11 @@ def test_rtd(adc: ad7124.AD7124) -> None:
     adc.read_die_temp(ch0_data)
     # # adc.read_die_temp(ch1_data)
     # # adc.read_die_temp(ch2_data)
-    adc.test_conversion(ch1_data)
-    adc.test_conversion(ch2_data)
-    adc.test_conversion(ch3_data)
-    adc.test_conversion(ch4_data)
-    # # adc.test_conversion(ch5_data)
+    adc.rtd_test_conversion(ch1_data)
+    adc.rtd_test_conversion(ch2_data)
+    adc.rtd_test_conversion(ch3_data)
+    adc.rtd_test_conversion(ch4_data)
+    # # adc.rtd_test_conversion(ch5_data)
     # adc.read_die_temp(ch5_data)
     adc.reset()
     
@@ -141,6 +141,7 @@ def test_sd(adc: ad7124.AD7124) -> None:
     # adc.set_channel_config(channel=1, disable=True)
     
     adc.read_die_temp(ch0_data)
+    adc.sd_test_conversion(ch1_data)
     
     print(ch1_data)
     
