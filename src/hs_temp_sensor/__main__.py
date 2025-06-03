@@ -143,7 +143,5 @@ def test_sd(adc: ad7124.AD7124) -> None:
     adc.read_die_temp(ch0_data)
     adc.sd_test_conversion(ch1_data)
     
-    print(ch1_data)
-    
 if __name__ == "__main__":
     main()
