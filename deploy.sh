@@ -1,7 +1,7 @@
 #! /usr/bin/bash
 
 short_opt_str=':vd:rih'
-long_opt_str=':verbose,device:,reset,id,temp,test,help'
+long_opt_str=':verbose,device:,reset,id,temp,test,rtd,sd,help'
 
 VALID_ARGS=$(getopt -o "$short_opt_str" -l "$long_opt_str" -- "$@")
 if [ $? -ne 0 ]; then
@@ -40,6 +40,16 @@ while true; do
         ;;
     '--test')
         OPT+="--test"
+        # break
+        shift
+        ;;
+    '--rtd')
+        OPT+=" --rtd"
+        # break
+        shift
+        ;;
+    '--sd')
+        OPT+=" --sd"
         # break
         shift
         ;;
