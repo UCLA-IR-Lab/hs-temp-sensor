@@ -124,7 +124,6 @@ def test_sd(adc: ad7124.AD7124) -> None:
     adc.initialize()
         
     adc.set_adc_config()
-    adc.read_config()
     adc.set_config(gain=1, cfg_channel=0)
     adc.read_config()
     
