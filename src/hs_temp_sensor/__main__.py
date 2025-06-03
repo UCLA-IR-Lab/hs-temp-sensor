@@ -66,7 +66,7 @@ def main() -> None:
         if args.rtd:
             test_rtd(adc)
         elif args.sd:
-            print("Silicon Diode measurement not implemented yet.")
+            test_sd(adc)
         else:
             print("No test specified. Use --rtd or --sd for specific tests.")
             return
