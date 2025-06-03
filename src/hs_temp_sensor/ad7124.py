@@ -209,7 +209,7 @@ class AD7124:
         
         return io_control_reg
     
-    def set_io_control(self, iout0_ch, io_control=1):
+    def set_io_control(self, iout0_ch, ex_cur, io_control=1):
         match io_control:
             case 1:
                 comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_IO_CTRL1_REG)
@@ -219,7 +219,27 @@ class AD7124:
                 logger.error("Invalid IO channel specified")
                 return None
             
-        io_control_config = AD7124_IO_CTRL1_REG_IOUT0(4) | AD7124_IO_CTRL1_REG_IOUT0_CH(iout0_ch)
+        match ex_cur:
+            case 0:
+                ex_cur_bits = 0b000
+            case 50:
+                ex_cur_bits = 0b001
+            case 100:
+                ex_cur_bits = 0b010
+            case 250:
+                ex_cur_bits = 0b011
+            case 500:
+                ex_cur_bits = 0b100
+            case 750:
+                ex_cur_bits = 0b101
+            case 1000:
+                ex_cur_bits = 0b110
+            case 0.1:
+                ex_cur_bits = 0b111
+            case _:
+                ex_cur_bits = 0b000
+        
+        io_control_config = AD7124_IO_CTRL1_REG_IOUT0(ex_cur_bits) | AD7124_IO_CTRL1_REG_IOUT0_CH(iout0_ch)
         self.spi.xfer2([comms_write, (io_control_config >> 16) & 0xFF, (io_control_config >> 8) & 0xFF, io_control_config & 0xFF])
         logger.debug("IO {} Configured: 0x{:04X}".format(io_control, io_control_config))
         

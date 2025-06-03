@@ -85,25 +85,25 @@ def test_rtd(adc: ad7124.AD7124) -> None:
     adc.read_status()
     adc.set_channel_config(channel=0, disable=True)
     
-    adc.set_io_control(iout0_ch=1, io_control=1)
+    adc.set_io_control(iout0_ch=1, ex_cur=500, io_control=1)
     adc.set_channel_config(channel=1, setup=0, ainp=2, ainm=3)
     ch1_data = adc.read_data()
     adc.read_status()
     adc.set_channel_config(channel=1, disable=True)
     
-    adc.set_io_control(iout0_ch=4, io_control=1)
+    adc.set_io_control(iout0_ch=4, ex_cur=500, io_control=1)
     adc.set_channel_config(channel=2, setup=0, ainp=5, ainm=6)
     ch2_data = adc.read_data()
     adc.read_status()
     adc.set_channel_config(channel=2, disable=True)
     
-    adc.set_io_control(iout0_ch=8, io_control=1)
+    adc.set_io_control(iout0_ch=8, ex_cur=500, io_control=1)
     adc.set_channel_config(channel=3, setup=0, ainp=9, ainm=10)
     ch3_data = adc.read_data()
     adc.read_status()
     adc.set_channel_config(channel=3, disable=True)
     
-    adc.set_io_control(iout0_ch=11, io_control=1)
+    adc.set_io_control(iout0_ch=11, ex_cur=500, io_control=1)
     adc.set_channel_config(channel=4, setup=0, ainp=12, ainm=13)
     ch4_data = adc.read_data()
     adc.read_status()
@@ -126,7 +126,7 @@ def test_sd(adc: ad7124.AD7124) -> None:
     adc.set_adc_config()
     # adc.set_config(cfg_channel=0)
     
-    # adc.set_io_control(iout0_ch=1, io_control=1)
+    # adc.set_io_control(iout0_ch=1,  ex_cur=50, io_control=1)
     adc.set_channel_config(channel=1, setup=0, ainp=2, ainm=3)
     ch1_data = adc.read_data()
     adc.read_status()
