@@ -13,6 +13,8 @@ def main() -> None:
     parser.add_argument("--id", action="store_true", help="Read chip ID")
     parser.add_argument("--temp", action="store_true", help="Read on-chip die temperature")
     parser.add_argument("--test", action="store_true", help="Run a test sequence")
+    parser.add_argument("--rtd", action="store_true", help="RTD measurement")
+    parser.add_argument("--sd", action="store_true", help="Silicon Diode measurement")
     
     log_levels = {
         0: CRITICAL,
@@ -61,8 +63,13 @@ def main() -> None:
         return
     
     if args.test:
-        test_rtd(adc)
-        
+        if args.rtd:
+            test_rtd(adc)
+        elif args.sd:
+            print("Silicon Diode measurement not implemented yet.")
+        else:
+            print("No test specified. Use --rtd or --sd for specific tests.")
+            return
         
     adc.close()
     
