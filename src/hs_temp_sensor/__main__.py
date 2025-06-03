@@ -138,10 +138,12 @@ def test_sd(adc: ad7124.AD7124) -> None:
     adc.set_channel_config(channel=1, setup=0, ainp=2, ainm=3)
     ch1_data = adc.read_data()
     adc.read_status()
-    # adc.set_channel_config(channel=1, disable=True)
+    adc.set_channel_config(channel=1, disable=True)
     
     adc.read_die_temp(ch0_data)
     adc.sd_test_conversion(ch1_data)
+    
+    adc.reset()
     
 if __name__ == "__main__":
     main()
