@@ -163,7 +163,7 @@ def test_sd(adc: ad7124.AD7124) -> None:
     adc.sd_test_conversion(ch3_data)
     adc.sd_test_conversion(ch4_data)
     
-    adc.reset()
+    # adc.reset()
     
 if __name__ == "__main__":
     main()
