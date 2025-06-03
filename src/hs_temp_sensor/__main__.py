@@ -120,5 +120,17 @@ def test_rtd(adc: ad7124.AD7124) -> None:
     # adc.read_die_temp(ch5_data)
     adc.reset()
     
+def test_sd(adc: ad7124.AD7124) -> None:
+    adc.initialize()
+        
+    adc.set_adc_config()
+    # adc.set_config(cfg_channel=0)
+    
+    # adc.set_io_control(iout0_ch=1, io_control=1)
+    adc.set_channel_config(channel=1, setup=0, ainp=2, ainm=3)
+    ch1_data = adc.read_data()
+    adc.read_status()
+    # adc.set_channel_config(channel=1, disable=True)
+    
 if __name__ == "__main__":
     main()
