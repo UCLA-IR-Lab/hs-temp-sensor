@@ -130,9 +130,29 @@ class AD7124:
         self.set_adc_config()
         self.set_channel_config()
         
-    def set_config(self, cfg_channel=0):
+    def set_config(self, gain, cfg_channel=0):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_CFG0_REG)
-        config_reg = AD7124_CFG_REG_BIPOLAR | AD7124_CFG_REG_AIN_BUFP | AD7124_CFG_REG_AIN_BUFM | AD7124_CFG_REG_REF_SEL(0) | AD7124_CFG_REG_PGA(4)
+        match gain:
+            case 1:
+                gain_bits = 0b000
+            case 2:
+                gain_bits = 0b001
+            case 4:
+                gain_bits = 0b010
+            case 8:
+                gain_bits = 0b011
+            case 16:
+                gain_bits = 0b100
+            case 32:
+                gain_bits = 0b101
+            case 64:
+                gain_bits = 0b110
+            case 128:
+                gain_bits = 0b111
+            case _:
+                logger.error("Invalid gain specified, defaulting to 1")
+                gain_bits = 0b000
+        config_reg = AD7124_CFG_REG_BIPOLAR | AD7124_CFG_REG_AIN_BUFP | AD7124_CFG_REG_AIN_BUFM | AD7124_CFG_REG_REF_SEL(0) | AD7124_CFG_REG_PGA(gain_bits)
         self.spi.xfer2([comms_write, (config_reg >> 8) & 0xFF, config_reg & 0xFF])
         logger.debug("Configuration Register {} set to: 0x{:04X}".format(cfg_channel, config_reg))
         
