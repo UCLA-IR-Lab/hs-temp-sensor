@@ -61,132 +61,57 @@ def main() -> None:
         return
     
     if args.test:
-        print("Running test sequence...")
-        adc.initialize()
-        # for i in range(16):
-        #     adc.read_channel_config(i)
-        # adc.read_status()
-        # adc.read_adc_config()
-        # adc.read_config(cfg_channel=0)
-        # adc.read_channel_config(0)
-        # adc.read_channel_config(1)
-        # adc.read_channel_config(2)
-        # adc.read_channel_config(3)
-        # adc.read_channel_config(4)
-        # adc.read_channel_config(5)
-        # adc.read_io_control(io_control=1)
+        test_rtd(adc)
         
-        
-        adc.set_adc_config()
-        adc.set_config(cfg_channel=0)
-        
-        adc.set_channel_config(channel=0, setup=0, ainp=16, ainm=17)
-        ch0_data = adc.read_data()
-        adc.read_status()
-        adc.set_channel_config(channel=0, disable=True)
-        
-        adc.set_io_control(iout0_ch=1, io_control=1)
-        adc.set_channel_config(channel=1, setup=0, ainp=2, ainm=3)
-        ch1_data = adc.read_data()
-        adc.read_status()
-        adc.set_channel_config(channel=1, disable=True)
-        
-        adc.set_io_control(iout0_ch=4, io_control=1)
-        adc.set_channel_config(channel=2, setup=0, ainp=5, ainm=6)
-        ch2_data = adc.read_data()
-        adc.read_status()
-        adc.set_channel_config(channel=2, disable=True)
-        
-        adc.set_io_control(iout0_ch=8, io_control=1)
-        adc.set_channel_config(channel=3, setup=0, ainp=9, ainm=10)
-        ch3_data = adc.read_data()
-        adc.read_status()
-        adc.set_channel_config(channel=3, disable=True)
-        
-        adc.set_io_control(iout0_ch=11, io_control=1)
-        adc.set_channel_config(channel=4, setup=0, ainp=12, ainm=13)
-        ch4_data = adc.read_data()
-        adc.read_status()
-        adc.set_channel_config(channel=4, disable=True)
-        
-        # adc.set_adc_config()
-        # adc.set_config(cfg_channel=0)
-        
-        # ch0_data = adc.read_data()
-        # adc.read_status()
-        # adc.set_channel_config(channel=0, disable=True)
-    
-        # ch1_data = adc.read_data()
-        # adc.read_status()
-        # adc.set_channel_config(channel=1, disable=True)
-        
-        # ch2_data = adc.read_data()
-        # adc.read_status()
-        # adc.set_channel_config(channel=2, disable=True)
-        
-        # ch3_data = adc.read_data()
-        # adc.read_status()
-        # adc.set_channel_config(channel=3, disable=True)
-        
-        # ch4_data = adc.read_data()
-        # adc.read_status()
-        # adc.set_channel_config(channel=4, disable=True)
-        
-        # adc.set_channel_config(channel=3, setup=0, ainp=9, ainm=10)
-        # adc.set_channel_config(channel=4, setup=0, ainp=12, ainm=13)
-        # adc.set_channel_config(channel=5, setup=0, ainp=18, ainm=18)
-        # adc.set_channel_config(channel=6, setup=0, ainp=16, ainm=17)
-        # adc.set_channel_config(channel=7, setup=0, ainp=16, ainm=17)
-        # adc.set_channel_config(channel=8, setup=0, ainp=16, ainm=17)
-        # adc.set_channel_config(channel=9, setup=0, ainp=16, ainm=17)
-        # adc.set_channel_config(channel=10, setup=0, ainp=16, ainm=17)
-        # adc.set_channel_config(channel=11, setup=0, ainp=16, ainm=17)
-        # adc.set_channel_config(channel=12, setup=0, ainp=16, ainm=17)
-        # adc.set_io_control(io_channel=1)
-        # for i in range(16):
-        #     adc.read_channel_config(i)
-        
-        # adc.read_adc_config()
-        # adc.read_config(cfg_channel=0)
-        # adc.read_channel_config(0)
-        # adc.read_channel_config(1)
-        # adc.read_channel_config(2)
-        # adc.read_channel_config(3)
-        # adc.read_channel_config(4)
-        # adc.read_channel_config(5)
-        # adc.read_io_control(io_control=1)
-
-        # for i in range(16):
-        #     data = adc.read_data()
-        #     adc.read_status()
-        #     adc.read_die_temp(data)
-        #     adc.test_conversion(data)
-            
-        # ch0_data = adc.read_data()
-        # adc.read_status()
-        # ch1_data = adc.read_data()
-        # adc.read_status()
-        # ch2_data = adc.read_data()
-        # adc.read_status()
-        # ch3_data = adc.read_data()
-        # adc.read_status()
-        # ch4_data = adc.read_data()
-        # adc.read_status()
-        # ch5_data = adc.read_data()
-        # adc.read_status()
-        # # ch2_data = adc.read_data()
-        adc.read_die_temp(ch0_data)
-        # # adc.read_die_temp(ch1_data)
-        # # adc.read_die_temp(ch2_data)
-        adc.test_conversion(ch1_data)
-        adc.test_conversion(ch2_data)
-        adc.test_conversion(ch3_data)
-        adc.test_conversion(ch4_data)
-        # # adc.test_conversion(ch5_data)
-        # adc.read_die_temp(ch5_data)
-        adc.reset()
         
     adc.close()
+    
+    
+def test_rtd(adc: ad7124.AD7124) -> None:
+    adc.initialize()
+        
+    adc.set_adc_config()
+    adc.set_config(cfg_channel=0)
+    
+    adc.set_channel_config(channel=0, setup=0, ainp=16, ainm=17)
+    ch0_data = adc.read_data()
+    adc.read_status()
+    adc.set_channel_config(channel=0, disable=True)
+    
+    adc.set_io_control(iout0_ch=1, io_control=1)
+    adc.set_channel_config(channel=1, setup=0, ainp=2, ainm=3)
+    ch1_data = adc.read_data()
+    adc.read_status()
+    adc.set_channel_config(channel=1, disable=True)
+    
+    adc.set_io_control(iout0_ch=4, io_control=1)
+    adc.set_channel_config(channel=2, setup=0, ainp=5, ainm=6)
+    ch2_data = adc.read_data()
+    adc.read_status()
+    adc.set_channel_config(channel=2, disable=True)
+    
+    adc.set_io_control(iout0_ch=8, io_control=1)
+    adc.set_channel_config(channel=3, setup=0, ainp=9, ainm=10)
+    ch3_data = adc.read_data()
+    adc.read_status()
+    adc.set_channel_config(channel=3, disable=True)
+    
+    adc.set_io_control(iout0_ch=11, io_control=1)
+    adc.set_channel_config(channel=4, setup=0, ainp=12, ainm=13)
+    ch4_data = adc.read_data()
+    adc.read_status()
+    adc.set_channel_config(channel=4, disable=True)
+        
+    adc.read_die_temp(ch0_data)
+    # # adc.read_die_temp(ch1_data)
+    # # adc.read_die_temp(ch2_data)
+    adc.test_conversion(ch1_data)
+    adc.test_conversion(ch2_data)
+    adc.test_conversion(ch3_data)
+    adc.test_conversion(ch4_data)
+    # # adc.test_conversion(ch5_data)
+    # adc.read_die_temp(ch5_data)
+    adc.reset()
     
 if __name__ == "__main__":
     main()
