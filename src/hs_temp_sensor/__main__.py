@@ -113,16 +113,18 @@ def test_rtd(adc: ad7124.AD7124) -> None:
     adc.read_status()
     adc.set_channel_config(channel=4, disable=True)
         
-    adc.read_die_temp(ch0_data)
+    die_temp = adc.read_die_temp(ch0_data)
     # # adc.read_die_temp(ch1_data)
     # # adc.read_die_temp(ch2_data)
-    adc.rtd_test_conversion(ch1_data)
-    adc.rtd_test_conversion(ch2_data)
-    adc.rtd_test_conversion(ch3_data)
-    adc.rtd_test_conversion(ch4_data)
+    res_a =  adc.rtd_test_conversion(ch1_data)
+    res_b = adc.rtd_test_conversion(ch2_data)
+    res_c = adc.rtd_test_conversion(ch3_data)
+    res_d = adc.rtd_test_conversion(ch4_data)
     # # adc.rtd_test_conversion(ch5_data)
     # adc.read_die_temp(ch5_data)
     adc.reset()
+    
+    print("Die Temperature: {} °C".format(die_temp))
     
 def test_sd(adc: ad7124.AD7124) -> None:
     adc.initialize()
