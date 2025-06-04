@@ -174,13 +174,19 @@ def test_sd(adc: ad7124.AD7124) -> None:
     adc.read_status()
     adc.set_channel_config(channel=4, disable=True)
     
-    adc.read_die_temp(ch0_data)
-    adc.sd_test_conversion(ch1_data)
-    adc.sd_test_conversion(ch2_data)
-    adc.sd_test_conversion(ch3_data)
-    adc.sd_test_conversion(ch4_data)
+    die_temp = adc.read_die_temp(ch0_data)
+    vol_e = adc.sd_test_conversion(ch1_data)
+    vol_f = adc.sd_test_conversion(ch2_data)
+    vol_g = adc.sd_test_conversion(ch3_data)
+    vol_h = adc.sd_test_conversion(ch4_data)
     
     adc.reset()
+    
+    print("Die Temperature: {:.5f} °C".format(die_temp))
+    print("SD Channel E Resistance: {:.5f} Ohm".format(vol_e))
+    print("SD Channel F Resistance: {:.5f} Ohm".format(vol_f))
+    print("SD Channel G Resistance: {:.5f} Ohm".format(vol_g))
+    print("SD Channel H Resistance: {:.5f} Ohm".format(vol_h))
     
 if __name__ == "__main__":
     main()
