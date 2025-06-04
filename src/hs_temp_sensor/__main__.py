@@ -65,6 +65,8 @@ def main() -> None:
         #     adc.read_adc_config()
         #     adc.read_channel_config()
         data = adc.read_data()
+        adc.read_status()
+        adc.set_channel_config(channel=0, disable=True)
         die_temp = adc.read_die_temp(data)
         adc.close()
         
