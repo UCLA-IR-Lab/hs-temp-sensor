@@ -64,13 +64,14 @@ def main() -> None:
         # if args.verbosity:
         #     adc.read_adc_config()
         #     adc.read_channel_config()
-        data = adc.read_data()
+        data, status = adc.read_data()
         adc.read_status()
         adc.set_channel_config(channel=0, disable=True)
         die_temp = adc.read_die_temp(data)
         adc.close()
         
         print("Die Temperature: {:.5f} °C".format(die_temp))
+        print("Status Register: 0x{:02X}".format(status))
         
         return
     
