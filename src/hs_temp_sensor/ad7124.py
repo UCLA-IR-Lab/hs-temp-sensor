@@ -209,7 +209,6 @@ class AD7124:
     
     def read_die_temp(self, data):
         die_temp = ((data - 0x800000)/13584) - 272.5
-        print("Die Temperature: {:.5f} °C".format(die_temp))
         logger.info("Die Temperature: {:.5f} °C".format(die_temp))
         
         return die_temp

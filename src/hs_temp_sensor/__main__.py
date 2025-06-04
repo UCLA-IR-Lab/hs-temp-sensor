@@ -59,8 +59,10 @@ def main() -> None:
             adc.read_adc_config()
             adc.read_channel_config()
         data = adc.read_data()
-        adc.read_die_temp(data)
+        die_temp = adc.read_die_temp(data)
         adc.close()
+        
+        print("Die Temperature: {:.5f} °C".format(die_temp))
         
         return
     
