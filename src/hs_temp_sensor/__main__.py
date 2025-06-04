@@ -43,8 +43,10 @@ def main() -> None:
         return
     
     if args.id:
-        adc.read_id()
+        adc_id = adc.read_id()
         adc.close()
+        
+        print("ADC Chip ID: 0x{:02X}".format(adc_id))
         
         return
     
