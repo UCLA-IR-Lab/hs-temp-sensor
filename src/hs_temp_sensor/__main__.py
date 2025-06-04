@@ -124,7 +124,7 @@ def test_rtd(adc: ad7124.AD7124) -> None:
     # adc.read_die_temp(ch5_data)
     adc.reset()
     
-    print("Die Temperature: {} °C".format(die_temp))
+    print("Die Temperature: {:.5f} °C".format(die_temp))
     
 def test_sd(adc: ad7124.AD7124) -> None:
     adc.initialize()
