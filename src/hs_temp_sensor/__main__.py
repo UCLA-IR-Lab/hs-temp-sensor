@@ -129,7 +129,8 @@ def test_rtd(adc: ad7124.AD7124) -> None:
     res_d = adc.rtd_test_conversion(ch4_data)
     # # adc.rtd_test_conversion(ch5_data)
     # adc.read_die_temp(ch5_data)
-    # adc.reset()
+    
+    adc.reset()
     
     print("Die Temperature: {:.5f} °C".format(die_temp))
     print("RTD Channel A Resistance: {:.5f} Ohm".format(res_a))
@@ -180,7 +181,7 @@ def test_sd(adc: ad7124.AD7124) -> None:
     vol_g = adc.sd_test_conversion(ch3_data)
     vol_h = adc.sd_test_conversion(ch4_data)
     
-    # adc.reset()
+    adc.reset()
     
     print("Die Temperature: {:.5f} °C".format(die_temp))
     print("SD Channel E Resistance: {:.5f} Ohm".format(vol_e))
