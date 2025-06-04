@@ -31,6 +31,8 @@ def main() -> None:
         format='%(asctime)s %(name)s:%(lineno)s [%(levelname)s]: %(message)s'
     )
 
+    print(f"Using SPI device: {args.device}")
+    
     adc = ad7124.AD7124(args.device)
     adc.connect()
     
