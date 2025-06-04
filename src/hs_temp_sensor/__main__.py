@@ -64,8 +64,10 @@ def main() -> None:
     
     if args.test:
         if args.rtd:
+            print("Running RTD test...")
             test_rtd(adc)
         elif args.sd:
+            print("Running Silicon Diode test...")
             test_sd(adc)
         else:
             print("No test specified. Use --rtd or --sd for specific tests.")
