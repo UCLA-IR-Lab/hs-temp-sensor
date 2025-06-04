@@ -205,7 +205,7 @@ class AD7124:
         logger.debug("Data Register: 0x{:06X}".format(data))
         logger.debug("\tStatus Register: 0x{:02X}".format(status))
         
-        return data
+        return data, status
     
     def read_die_temp(self, data):
         die_temp = ((data - 0x800000)/13584) - 272.5
