@@ -171,6 +171,8 @@ class AD7124:
         self.spi.xfer2([comms_write, (adc_config >> 8) & 0xFF, adc_config & 0xFF])
         logger.debug("ADC Configured: 0x{:04X}".format(adc_config))
         
+        return
+        
     def read_adc_config(self):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_ADC_CTRL_REG)
         response = self.spi.xfer2([comms_write, 0x00, 0x00])
@@ -186,6 +188,8 @@ class AD7124:
             channel_config = AD7124_CH_MAP_REG_CH_ENABLE | AD7124_CH_MAP_REG_SETUP(0) | AD7124_CH_MAP_REG_AINP(ainp) | AD7124_CH_MAP_REG_AINM(ainm)
         self.spi.xfer2([comms_write, (channel_config >> 8) & 0xFF, channel_config & 0xFF])
         logger.debug("Channel {} Configured: 0x{:04X}".format(channel, channel_config))
+        
+        return
     
     def read_channel_config(self, channel=0):
         channel_reg = self._channel_selector(channel)
