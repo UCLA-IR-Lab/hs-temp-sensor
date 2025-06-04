@@ -54,15 +54,13 @@ def main() -> None:
     
     if args.temp:
         adc.initialize()
-        print("Initialzing ADC...")
         # if args.verbosity:
         #     adc.read_adc_config()
         #     adc.read_channel_config()
         #     adc.read_data()
         adc.set_adc_config()
-        print("Setting ADC configuration...")
+        adc.set_config(gain=1, cfg_channel=0)
         adc.set_channel_config(channel=0, setup=0, ainp=16, ainm=17)
-        print("Setting Channel 0 configuration...")
         # if args.verbosity:
         #     adc.read_adc_config()
         #     adc.read_channel_config()
