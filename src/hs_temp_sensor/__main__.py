@@ -58,7 +58,8 @@ def main() -> None:
             adc.read_adc_config()
             adc.read_channel_config()
             adc.read_data()
-        adc.configure()
+        adc.set_adc_config()
+        adc.set_channel_config(channel=0, setup=0, ainp=16, ainm=17)
         if args.verbosity:
             adc.read_adc_config()
             adc.read_channel_config()
