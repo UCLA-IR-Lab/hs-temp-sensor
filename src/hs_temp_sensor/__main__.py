@@ -125,6 +125,7 @@ def test_rtd(adc: ad7124.AD7124) -> None:
     adc.reset()
     
     print("Die Temperature: {:.5f} °C".format(die_temp))
+    print("RTD Channel A Resistance: {:.5f} Ohm".format(res_a))
     
 def test_sd(adc: ad7124.AD7124) -> None:
     adc.initialize()
