@@ -49,6 +49,7 @@ def main() -> None:
         
         print("ADC 0 Chip Temperature:      {:.5f} [°C]".format(die_temp_0))
         print("ADC 1 Chip Temperature:      {:.5f} [°C]".format(die_temp_1))
+        print("")
         print("RTD Channel A Resistance:    {:.5f} [Ω]".format(res_a))
         print("RTD Channel B Resistance:    {:.5f} [Ω]".format(res_b))
         print("RTD Channel C Resistance:    {:.5f} [Ω]".format(res_c))
