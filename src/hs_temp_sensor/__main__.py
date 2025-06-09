@@ -1,5 +1,5 @@
 import argparse
-# from logging import getLogger, basicConfig, DEBUG, CRITICAL, ERROR, WARNING, INFO
+from logging import getLogger, basicConfig, DEBUG, CRITICAL, ERROR, WARNING, INFO
 import time
 
 from hs_temp_sensor import ad7124
@@ -9,6 +9,7 @@ def main() -> None:
     # parser.add_argument("-v", "--verbose", dest="verbosity", action="count", default=0,
     #                     help="Verbosity (between 1-4 occurrences with more leading to more verbose logging)" \
     #                     "CRITICAL=0, ERROR=1, WARNING=2, INFO=3, DEBUG=4")
+    parser.add_argument("-v", "--verbose", dest="verbosity", action="store_true", help="Verbosity")
     parser.add_argument("-d", "--device", type=int, default="0", help="I2C device number (default: 0)")
     parser.add_argument("-r", "--reset", action="store_true", help="Reset the ADC chip")
     parser.add_argument("--id", action="store_true", help="Read chip ID")
@@ -28,7 +29,7 @@ def main() -> None:
 
     args = parser.parse_args()
     
-    # logger = getLogger("hs_temp_sensor")
+    logger = getLogger("hs_temp_sensor")
 
     # basicConfig(
     #     level=log_levels[min(args.verbosity, max(log_levels.keys()))],
