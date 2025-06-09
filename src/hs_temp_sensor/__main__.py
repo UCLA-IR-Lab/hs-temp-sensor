@@ -36,6 +36,8 @@ def main() -> None:
     adc = ad7124.AD7124(args.device)
     adc.connect()
     
+    print(adc)
+    
     if args.reset:
         adc.reset()
         adc.close()
@@ -53,6 +55,7 @@ def main() -> None:
         return
     
     if args.temp:
+        print("Reading on-chip die temperature...")
         adc.initialize()
         # if args.verbosity:
         #     adc.read_adc_config()
@@ -61,7 +64,6 @@ def main() -> None:
         adc.set_adc_config()
         adc.set_config(gain=1, cfg_channel=0)
         adc.set_channel_config(channel=0, setup=0, ainp=16, ainm=17)
-        adc.read_status()
         # if args.verbosity:
         #     adc.read_adc_config()
         #     adc.read_channel_config()
