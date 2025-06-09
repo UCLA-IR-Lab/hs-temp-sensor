@@ -64,22 +64,13 @@ def main() -> None:
         return
     
     if args.temp:
-        print("Reading on-chip die temperature...")
+        logger.debug("Reading on-chip die temperature...")
         adc.initialize()
-        # if args.verbosity:
-        #     adc.read_adc_config()
-        #     adc.read_channel_config()
-        #     adc.read_data()
         id_reg, dev_id, silicon_rev = adc.read_id()
-        logger.critical("ADC Chip ID Register: 0x{:02X}".format(id_reg))
         adc.set_adc_config()
         adc.set_config(gain=1, cfg_channel=0)
         adc.set_channel_config(channel=0, setup=0, ainp=16, ainm=17)
-        # if args.verbosity:
-        #     adc.read_adc_config()
-        #     adc.read_channel_config()
         data, status = adc.read_data()
-        adc.read_status()
         adc.set_channel_config(channel=0, disable=True)
         die_temp = adc.read_die_temp(data)
         adc.close()
