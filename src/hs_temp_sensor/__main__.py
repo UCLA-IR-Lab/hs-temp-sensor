@@ -25,6 +25,8 @@ def main() -> None:
     }
 
     args = parser.parse_args()
+    
+    logger = getLogger("hs_temp_sensor")
 
     basicConfig(
         level=log_levels[min(args.verbosity, max(log_levels.keys()))],
@@ -68,7 +70,8 @@ def main() -> None:
         #     adc.read_adc_config()
         #     adc.read_channel_config()
         #     adc.read_data()
-        adc.read_id()
+        id_reg, dev_id, silicon_rev = adc.read_id()
+        logger.critical("ADC Chip ID Register: 0x{:02X}".format(id_reg))
         adc.set_adc_config()
         adc.set_config(gain=1, cfg_channel=0)
         adc.set_channel_config(channel=0, setup=0, ainp=16, ainm=17)
