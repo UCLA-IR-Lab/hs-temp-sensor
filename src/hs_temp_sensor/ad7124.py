@@ -206,7 +206,9 @@ class AD7124:
         data = (data_reg[-4] << 16) | (data_reg[-3] << 8) | data_reg[-2]
         status = data_reg[-1] & 0xFF
         logger.debug("Data Register: 0x{:06X}".format(data))
+        print("Data Register: 0x{:06X}".format(data))
         logger.debug("\tStatus Register: 0x{:02X}".format(status))
+        print("\tStatus Register: 0x{:02X}".format(status))
         
         return data, status
     
