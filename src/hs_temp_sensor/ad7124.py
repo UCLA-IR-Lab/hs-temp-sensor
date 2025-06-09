@@ -1,4 +1,4 @@
-from logging import getLogger
+# from logging import getLogger
 import spidev
 import time
 

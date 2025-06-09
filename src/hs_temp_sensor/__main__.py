@@ -1,14 +1,14 @@
 import argparse
-from logging import getLogger, basicConfig, DEBUG, CRITICAL, ERROR, WARNING, INFO
+# from logging import getLogger, basicConfig, DEBUG, CRITICAL, ERROR, WARNING, INFO
 import time
 
 from hs_temp_sensor import ad7124
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="HISPEC 4-wire Temperature Sensor Test Software")
-    parser.add_argument("-v", "--verbose", dest="verbosity", action="count", default=0,
-                        help="Verbosity (between 1-4 occurrences with more leading to more verbose logging)" \
-                        "CRITICAL=0, ERROR=1, WARNING=2, INFO=3, DEBUG=4")
+    # parser.add_argument("-v", "--verbose", dest="verbosity", action="count", default=0,
+    #                     help="Verbosity (between 1-4 occurrences with more leading to more verbose logging)" \
+    #                     "CRITICAL=0, ERROR=1, WARNING=2, INFO=3, DEBUG=4")
     parser.add_argument("-d", "--device", type=int, default="0", help="I2C device number (default: 0)")
     parser.add_argument("-r", "--reset", action="store_true", help="Reset the ADC chip")
     parser.add_argument("--id", action="store_true", help="Read chip ID")
@@ -18,22 +18,22 @@ def main() -> None:
     parser.add_argument("--sd", action="store_true", help="Silicon Diode measurement")
     parser.add_argument("--test", action="store_true", help="Run a test sequence")
     
-    log_levels = {
-        0: CRITICAL,
-        1: ERROR,
-        2: WARNING,
-        3: INFO,
-        4: DEBUG
-    }
+    # log_levels = {
+    #     0: CRITICAL,
+    #     1: ERROR,
+    #     2: WARNING,
+    #     3: INFO,
+    #     4: DEBUG
+    # }
 
     args = parser.parse_args()
     
-    logger = getLogger("hs_temp_sensor")
+    # logger = getLogger("hs_temp_sensor")
 
-    basicConfig(
-        level=log_levels[min(args.verbosity, max(log_levels.keys()))],
-        format='%(asctime)s %(name)s:%(lineno)s [%(levelname)s]: %(message)s'
-    )
+    # basicConfig(
+    #     level=log_levels[min(args.verbosity, max(log_levels.keys()))],
+    #     format='%(asctime)s %(name)s:%(lineno)s [%(levelname)s]: %(message)s'
+    # )
     
     if args.test:
         print("Running test sequence...")
@@ -84,7 +84,7 @@ def main() -> None:
         return
     
     if args.temp:
-        logger.debug("Reading on-chip die temperature...")
+        # logger.debug("Reading on-chip die temperature...")
         adc.initialize()
         id_reg, dev_id, silicon_rev = adc.read_id()
         adc.set_adc_config()
@@ -102,7 +102,7 @@ def main() -> None:
     
     if args.read:
         if args.rtd:
-            logger.debug("Running RTD test...")
+            # logger.debug("Running RTD test...")
             die_temp, res_a, res_b, res_c, res_d = test_rtd(adc)
             
             print("ADC {} Chip Temperature:     {:.5f} [°C]".format(args.device, die_temp))
@@ -111,7 +111,7 @@ def main() -> None:
             print("RTD Channel C Resistance:    {:.5f} [Ω]".format(res_c))
             print("RTD Channel D Resistance:    {:.5f} [Ω]".format(res_d))
         elif args.sd:
-            logger.debug("Running Silicon Diode test...")
+            # logger.debug("Running Silicon Diode test...")
             die_temp, vol_e, vol_f, vol_g, vol_h = test_sd(adc)
             
             print("ADC {} Chip Temperature:     {:.5f} [°C]".format(args.device, die_temp))
