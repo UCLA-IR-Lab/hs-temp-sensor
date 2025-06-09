@@ -2,7 +2,7 @@ from logging import getLogger
 import spidev
 import time
 
-logger = getLogger(__name__)
+# logger = getLogger(__name__)
 
 AD7124_SPI_BUS = 0
 AD7124_SPI_DEVICE = 0
@@ -101,16 +101,16 @@ class AD7124:
         
     def reset(self):
         self.spi.xfer2([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF])
-        logger.debug("Reset complete")
+        # logger.debug("Reset complete")
         
     def read_status(self):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN | AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_STATUS_REG)
         response = self.spi.xfer2([comms_write, 0x00])
         status_register = response[-1] & 0xFF
-        logger.debug("Status Register: 0x{:02X}".format(status_register))
-        if (status_register & 0x80) >> 7 == 1:
-            logger.debug("ADC is not ready for conversion")
-        logger.debug("Channel {} Converted".format(status_register & 0x0F))
+        # logger.debug("Status Register: 0x{:02X}".format(status_register))
+        # if (status_register & 0x80) >> 7 == 1:
+        #     logger.debug("ADC is not ready for conversion")
+        # logger.debug("Channel {} Converted".format(status_register & 0x0F))
         
         return status_register
         
@@ -120,9 +120,9 @@ class AD7124:
         id_register = response[-1]
         device_id = (id_register >> 4) & 0x0F
         silicon_rev = id_register & 0x0F
-        logger.info("ID Register: 0x{:02X}".format(id_register))
-        logger.debug("Device ID: {}".format(device_id))
-        logger.debug("Silicon Revision: {}".format(silicon_rev))
+        # logger.info("ID Register: 0x{:02X}".format(id_register))
+        # logger.debug("Device ID: {}".format(device_id))
+        # logger.debug("Silicon Revision: {}".format(silicon_rev))
         
         return id_register, device_id, silicon_rev
     
@@ -150,17 +150,17 @@ class AD7124:
             case 128:
                 gain_bits = 0b111
             case _:
-                logger.error("Invalid gain specified, defaulting to 1")
+                # logger.error("Invalid gain specified, defaulting to 1")
                 gain_bits = 0b000
         config_reg = AD7124_CFG_REG_BIPOLAR | AD7124_CFG_REG_AIN_BUFP | AD7124_CFG_REG_AIN_BUFM | AD7124_CFG_REG_REF_SEL(0) | AD7124_CFG_REG_PGA(gain_bits)
         self.spi.xfer2([comms_write, (config_reg >> 8) & 0xFF, config_reg & 0xFF])
-        logger.debug("Configuration Register {} set to: 0x{:04X}".format(cfg_channel, config_reg))
+        # logger.debug("Configuration Register {} set to: 0x{:04X}".format(cfg_channel, config_reg))
         
     def read_config(self, cfg_channel=0):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_CFG0_REG)
         response = self.spi.xfer2([comms_write, 0x00, 0x00])
         config_reg = (response[-2] << 8) | response[-1]
-        logger.debug("Configuration Register {}: 0x{:04X}".format(cfg_channel, config_reg))
+        # logger.debug("Configuration Register {}: 0x{:04X}".format(cfg_channel, config_reg))
         
         return config_reg
     
@@ -169,13 +169,13 @@ class AD7124:
         adc_config = AD7124_ADC_CTRL_REG_DOUT_RDY_DEL | AD7124_ADC_CTRL_REG_DATA_STATUS | AD7124_ADC_CTRL_REG_REF_EN | AD7124_ADC_CTRL_REG_POWER_MODE(3) | AD7124_ADC_CTRL_REG_MODE(0) | AD7124_ADC_CTRL_REG_CLK_SEL(0)
         # adc_config = AD7124_ADC_CTRL_REG_REF_EN | AD7124_ADC_CTRL_REG_POWER_MODE(3) | AD7124_ADC_CTRL_REG_MODE(1) | AD7124_ADC_CTRL_REG_CLK_SEL(0)
         self.spi.xfer2([comms_write, (adc_config >> 8) & 0xFF, adc_config & 0xFF])
-        logger.debug("ADC Configured: 0x{:04X}".format(adc_config))
+        # logger.debug("ADC Configured: 0x{:04X}".format(adc_config))
         
     def read_adc_config(self):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_ADC_CTRL_REG)
         response = self.spi.xfer2([comms_write, 0x00, 0x00])
         adc_control_reg = response[-2] << 8 | response[-1]
-        logger.debug("ADC Configuration: 0x{:04X}".format(adc_control_reg))
+        # logger.debug("ADC Configuration: 0x{:04X}".format(adc_control_reg))
         
     def set_channel_config(self, disable=False, channel=0, setup=0, ainp=16, ainm=17):
         channel_reg = self._channel_selector(channel)
@@ -185,14 +185,14 @@ class AD7124:
         else:
             channel_config = AD7124_CH_MAP_REG_CH_ENABLE | AD7124_CH_MAP_REG_SETUP(0) | AD7124_CH_MAP_REG_AINP(ainp) | AD7124_CH_MAP_REG_AINM(ainm)
         self.spi.xfer2([comms_write, (channel_config >> 8) & 0xFF, channel_config & 0xFF])
-        logger.debug("Channel {} Configured: 0x{:04X}".format(channel, channel_config))
+        # logger.debug("Channel {} Configured: 0x{:04X}".format(channel, channel_config))
     
     def read_channel_config(self, channel=0):
         channel_reg = self._channel_selector(channel)
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(channel_reg)
         response = self.spi.xfer2([comms_write, 0x00, 0x00])
         channel_config_reg = response[-2] << 8 | response[-1]
-        logger.debug("Channel {} Configuration: 0x{:04X}".format(channel, channel_config_reg))
+        # logger.debug("Channel {} Configuration: 0x{:04X}".format(channel, channel_config_reg))
         
     def read_data(self):
         time.sleep(0.1)
@@ -202,14 +202,14 @@ class AD7124:
         data_reg = self.spi.xfer2([comms_write, 0x00, 0x00, 0x00, 0x00])
         data = (data_reg[-4] << 16) | (data_reg[-3] << 8) | data_reg[-2]
         status = data_reg[-1] & 0xFF
-        logger.debug("Data Register: 0x{:06X}".format(data))
-        logger.debug("\tStatus Register: 0x{:02X}".format(status))
+        # logger.debug("Data Register: 0x{:06X}".format(data))
+        # logger.debug("\tStatus Register: 0x{:02X}".format(status))
         
         return data, status
     
     def read_die_temp(self, data):
         die_temp = ((data - 0x800000)/13584) - 272.5
-        logger.info("Die Temperature: {:.5f} °C".format(die_temp))
+        # logger.info("Die Temperature: {:.5f} °C".format(die_temp))
         
         return die_temp
     
@@ -220,12 +220,12 @@ class AD7124:
             case 2:
                 comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_IO_CTRL2_REG)
             case _:
-                logger.error("Invalid IO channel specified")
+                # logger.error("Invalid IO channel specified")
                 return None
         
         response = self.spi.xfer2([comms_write, 0x00, 0x00, 0x00])
         io_control_reg = (response[-3] << 16) | (response[-2] << 8) | response[-1]
-        logger.info("IO Control {}: 0x{:06X}".format(io_control, io_control_reg))
+        # logger.info("IO Control {}: 0x{:06X}".format(io_control, io_control_reg))
         
         return io_control_reg
     
@@ -236,7 +236,7 @@ class AD7124:
             case 2:
                 comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_WR | AD7124_COMM_REG_RA(AD7124_IO_CTRL2_REG)
             case _:
-                logger.error("Invalid IO channel specified")
+                # logger.error("Invalid IO channel specified")
                 return None
             
         match ex_cur:
@@ -261,17 +261,17 @@ class AD7124:
         
         io_control_config = AD7124_IO_CTRL1_REG_IOUT0(ex_cur_bits) | AD7124_IO_CTRL1_REG_IOUT0_CH(iout0_ch)
         self.spi.xfer2([comms_write, (io_control_config >> 16) & 0xFF, (io_control_config >> 8) & 0xFF, io_control_config & 0xFF])
-        logger.debug("IO {} Configured: 0x{:04X}".format(io_control, io_control_config))
+        # logger.debug("IO {} Configured: 0x{:04X}".format(io_control, io_control_config))
         
     def rtd_test_conversion(self, data):
         resistor_rtd = ((data - 2**23) * 5.11*10**3) / (16 * 2**23)
-        logger.info("RTD Resistance: {:.2f} Ohms".format(resistor_rtd))
+        # logger.info("RTD Resistance: {:.2f} Ohms".format(resistor_rtd))
         
         return resistor_rtd
     
     def sd_test_conversion(self, data):
         sd_voltage = ((data - 2**23) / 2**23) * 2.5
-        logger.info("SD Voltage: {:.5f} V".format(sd_voltage))
+        # logger.info("SD Voltage: {:.5f} V".format(sd_voltage))
         
         return sd_voltage
     
@@ -310,6 +310,6 @@ class AD7124:
             case 15:
                 return AD7124_CH15_MAP_REG
             case _:
-                logger.error("Invalid channel specified")
+                # logger.error("Invalid channel specified")
                 return None
             
