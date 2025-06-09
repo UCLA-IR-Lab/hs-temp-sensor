@@ -33,9 +33,6 @@ def main() -> None:
         level=log_levels[min(args.verbosity, max(log_levels.keys()))],
         format='%(asctime)s %(name)s:%(lineno)s [%(levelname)s]: %(message)s'
     )
-
-    logger.info("Using SPI device: {}".format(args.device))
-    logger.debug("Verbosity level: {}".format(args.verbosity))
     
     if args.test:
         print("Running test sequence...")
@@ -49,6 +46,9 @@ def main() -> None:
         adc1.close() 
         
         return
+    
+    logger.info("Using SPI device: {}".format(args.device))
+    logger.debug("Verbosity level: {}".format(args.verbosity))
     
     adc = ad7124.AD7124(args.device)
     adc.connect()
