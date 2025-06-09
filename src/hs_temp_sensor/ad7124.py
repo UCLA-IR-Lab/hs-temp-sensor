@@ -109,10 +109,10 @@ class AD7124:
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN | AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_STATUS_REG)
         response = self.spi.xfer2([comms_write, 0x00])
         status_register = response[-1] & 0xFF
-        logger.debug("Status Register: 0x{:02X}".format(status_register))
+        # logger.debug("Status Register: 0x{:02X}".format(status_register))
         if (status_register & 0x80) >> 7 == 1:
             logger.debug("ADC is not ready for conversion")
-        logger.debug("Channel {} Converted".format(status_register & 0x0F))
+        # logger.debug("Channel {} Converted".format(status_register & 0x0F))
         
         return status_register
         
