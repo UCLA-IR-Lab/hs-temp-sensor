@@ -4,7 +4,7 @@ import time
 
 # logger = getLogger(__name__)
 
-logger = getLogger("hs_temp_sensor")
+# logger = getLogger("hs_temp_sensor")
 
 AD7124_SPI_BUS = 0
 AD7124_SPI_DEVICE = 0
