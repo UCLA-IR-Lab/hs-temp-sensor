@@ -39,6 +39,15 @@ def main() -> None:
     
     if args.test:
         print("Running test sequence...")
+        adc0 = ad7124.AD7124(0)
+        adc1 = ad7124.AD7124(1)
+        adc0.connect()
+        adc1.connect()
+        
+        
+        adc0.close()
+        adc1.close() 
+        
         return
     
     adc = ad7124.AD7124(args.device)
