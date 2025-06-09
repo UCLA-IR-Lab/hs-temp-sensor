@@ -74,10 +74,10 @@ def main() -> None:
     
     if args.test:
         if args.rtd:
-            print("Running RTD test...")
+            logger.debug("Running RTD test...")
             test_rtd(adc)
         elif args.sd:
-            print("Running Silicon Diode test...")
+            logger.debug("Running Silicon Diode test...")
             test_sd(adc)
         else:
             print("No test specified. Use --rtd or --sd for specific tests.")
@@ -88,6 +88,8 @@ def main() -> None:
     
 def test_rtd(adc: ad7124.AD7124) -> None:
     adc.initialize()
+    
+    id_reg, dev_id, silicon_rev = adc.read_id()
         
     adc.set_adc_config()
     adc.set_config(gain=16, cfg_channel=0)
