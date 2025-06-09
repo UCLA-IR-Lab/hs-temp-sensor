@@ -41,6 +41,11 @@ def main() -> None:
         adc0.connect()
         adc1.connect()
         
+        die_temp_0, res_a, res_b, res_c, res_d = test_rtd(adc0)
+        die_temp_1, vol_e, vol_f, vol_g, vol_h = test_sd(adc1)
+        
+        print("ADC 0 Die Temperature: {:.5f} °C".format(die_temp_0))
+        print("ADC 1 Die Temperature: {:.5f} °C".format(die_temp_1))
         
         adc0.close()
         adc1.close() 
@@ -89,10 +94,22 @@ def main() -> None:
     if args.read:
         if args.rtd:
             logger.debug("Running RTD test...")
-            test_rtd(adc)
+            die_temp, res_a, res_b, res_c, res_d = test_rtd(adc)
+            
+            print("Die Temperature: {:.5f} °C".format(die_temp))
+            print("RTD Channel A Resistance: {:.5f} Ohm".format(res_a))
+            print("RTD Channel B Resistance: {:.5f} Ohm".format(res_b))
+            print("RTD Channel C Resistance: {:.5f} Ohm".format(res_c))
+            print("RTD Channel D Resistance: {:.5f} Ohm".format(res_d))
         elif args.sd:
             logger.debug("Running Silicon Diode test...")
-            test_sd(adc)
+            die_temp, vol_e, vol_f, vol_g, vol_h = test_sd(adc)
+            
+            print("Die Temperature: {:.5f} °C".format(die_temp))
+            print("SD Channel E Resistance: {:.5f} Ohm".format(vol_e))
+            print("SD Channel F Resistance: {:.5f} Ohm".format(vol_f))
+            print("SD Channel G Resistance: {:.5f} Ohm".format(vol_g))
+            print("SD Channel H Resistance: {:.5f} Ohm".format(vol_h))
         else:
             print("No test specified. Use --rtd or --sd for specific tests.")
             return
@@ -100,7 +117,7 @@ def main() -> None:
     adc.close()
     
     
-def test_rtd(adc: ad7124.AD7124) -> None:
+def test_rtd(adc: ad7124.AD7124):
     adc.initialize()
     
     id_reg, dev_id, silicon_rev = adc.read_id()
@@ -146,13 +163,15 @@ def test_rtd(adc: ad7124.AD7124) -> None:
     
     adc.reset()
     
-    print("Die Temperature: {:.5f} °C".format(die_temp))
-    print("RTD Channel A Resistance: {:.5f} Ohm".format(res_a))
-    print("RTD Channel B Resistance: {:.5f} Ohm".format(res_b))
-    print("RTD Channel C Resistance: {:.5f} Ohm".format(res_c))
-    print("RTD Channel D Resistance: {:.5f} Ohm".format(res_d))
+    # print("Die Temperature: {:.5f} °C".format(die_temp))
+    # print("RTD Channel A Resistance: {:.5f} Ohm".format(res_a))
+    # print("RTD Channel B Resistance: {:.5f} Ohm".format(res_b))
+    # print("RTD Channel C Resistance: {:.5f} Ohm".format(res_c))
+    # print("RTD Channel D Resistance: {:.5f} Ohm".format(res_d))
     
-def test_sd(adc: ad7124.AD7124) -> None:
+    return die_temp, res_a, res_b, res_c, res_d
+    
+def test_sd(adc: ad7124.AD7124):
     adc.initialize()
     
     id_reg, dev_id, silicon_rev = adc.read_id()
@@ -200,11 +219,13 @@ def test_sd(adc: ad7124.AD7124) -> None:
     
     adc.reset()
     
-    print("Die Temperature: {:.5f} °C".format(die_temp))
-    print("SD Channel E Resistance: {:.5f} Ohm".format(vol_e))
-    print("SD Channel F Resistance: {:.5f} Ohm".format(vol_f))
-    print("SD Channel G Resistance: {:.5f} Ohm".format(vol_g))
-    print("SD Channel H Resistance: {:.5f} Ohm".format(vol_h))
+    # print("Die Temperature: {:.5f} °C".format(die_temp))
+    # print("SD Channel E Resistance: {:.5f} Ohm".format(vol_e))
+    # print("SD Channel F Resistance: {:.5f} Ohm".format(vol_f))
+    # print("SD Channel G Resistance: {:.5f} Ohm".format(vol_g))
+    # print("SD Channel H Resistance: {:.5f} Ohm".format(vol_h))
+    
+    return die_temp, vol_e, vol_f, vol_g, vol_h
     
 if __name__ == "__main__":
     main()
