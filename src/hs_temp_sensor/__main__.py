@@ -37,6 +37,10 @@ def main() -> None:
     logger.info("Using SPI device: {}".format(args.device))
     logger.debug("Verbosity level: {}".format(args.verbosity))
     
+    if args.test:
+        print("Running test sequence...")
+        return
+    
     adc = ad7124.AD7124(args.device)
     adc.connect()
     
