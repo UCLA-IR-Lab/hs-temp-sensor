@@ -72,8 +72,8 @@ def main() -> None:
         adc.set_config(gain=1, cfg_channel=0)
         adc.set_channel_config(channel=0, setup=0, ainp=16, ainm=17)
         # if args.verbosity:
-        adc.read_adc_config()
-        adc.read_channel_config()
+        #     adc.read_adc_config()
+        #     adc.read_channel_config()
         data, status = adc.read_data()
         adc.read_status()
         adc.set_channel_config(channel=0, disable=True)
