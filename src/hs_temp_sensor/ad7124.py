@@ -155,6 +155,7 @@ class AD7124:
         config_reg = AD7124_CFG_REG_BIPOLAR | AD7124_CFG_REG_AIN_BUFP | AD7124_CFG_REG_AIN_BUFM | AD7124_CFG_REG_REF_SEL(0) | AD7124_CFG_REG_PGA(gain_bits)
         self.spi.xfer2([comms_write, (config_reg >> 8) & 0xFF, config_reg & 0xFF])
         logger.debug("Configuration Register {} set to: 0x{:04X}".format(cfg_channel, config_reg))
+        print("Configuration Register {} set to: 0x{:04X}".format(cfg_channel, config_reg))
         
     def read_config(self, cfg_channel=0):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_CFG0_REG)
@@ -170,6 +171,7 @@ class AD7124:
         # adc_config = AD7124_ADC_CTRL_REG_REF_EN | AD7124_ADC_CTRL_REG_POWER_MODE(3) | AD7124_ADC_CTRL_REG_MODE(1) | AD7124_ADC_CTRL_REG_CLK_SEL(0)
         self.spi.xfer2([comms_write, (adc_config >> 8) & 0xFF, adc_config & 0xFF])
         logger.debug("ADC Configured: 0x{:04X}".format(adc_config))
+        print("ADC Configured: 0x{:04X}".format(adc_config))
         
     def read_adc_config(self):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN| AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_ADC_CTRL_REG)
@@ -186,6 +188,7 @@ class AD7124:
             channel_config = AD7124_CH_MAP_REG_CH_ENABLE | AD7124_CH_MAP_REG_SETUP(0) | AD7124_CH_MAP_REG_AINP(ainp) | AD7124_CH_MAP_REG_AINM(ainm)
         self.spi.xfer2([comms_write, (channel_config >> 8) & 0xFF, channel_config & 0xFF])
         logger.debug("Channel {} Configured: 0x{:04X}".format(channel, channel_config))
+        print("Channel {} Configured: 0x{:04X}".format(channel, channel_config))
     
     def read_channel_config(self, channel=0):
         channel_reg = self._channel_selector(channel)

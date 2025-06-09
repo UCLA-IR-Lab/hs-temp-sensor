@@ -36,8 +36,6 @@ def main() -> None:
     adc = ad7124.AD7124(args.device)
     adc.connect()
     
-    print(adc)
-    
     if args.reset:
         adc.reset()
         adc.close()
