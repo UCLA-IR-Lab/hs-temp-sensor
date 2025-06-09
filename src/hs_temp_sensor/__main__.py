@@ -42,7 +42,6 @@ def main() -> None:
         
         adc0.connect()
         die_temp_0, res_a, res_b, res_c, res_d = test_rtd(adc0)
-        time.sleep(1)
         adc1.connect()
         die_temp_1, vol_e, vol_f, vol_g, vol_h = test_sd(adc1)
         
