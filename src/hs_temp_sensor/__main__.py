@@ -1,5 +1,6 @@
 import argparse
 from logging import getLogger, basicConfig, DEBUG, CRITICAL, ERROR, WARNING, INFO
+import time
 
 from hs_temp_sensor import ad7124
 
@@ -41,18 +42,20 @@ def main() -> None:
         
         adc0.connect()
         die_temp_0, res_a, res_b, res_c, res_d = test_rtd(adc0)
+        time.sleep(0.1)
         adc1.connect()
         die_temp_1, vol_e, vol_f, vol_g, vol_h = test_sd(adc1)
         
-        print("ADC 0 Chip Temperature: {:.5f} °C".format(die_temp_0))
-        print("ADC 1 Chip Temperature: {:.5f} °C".format(die_temp_1))
-        print("RTD Channel A Resistance: {:.5f} Ohm".format(res_a))
-        print("RTD Channel B Resistance: {:.5f} Ohm".format(res_b))
-        print("RTD Channel C Resistance: {:.5f} Ohm".format(res_c))
-        print("RTD Channel D Resistance: {:.5f} Ohm".format(res_d))
-        print("SD Channel E Resistance: {:.5f} Ohm".format(vol_e))
-        print("SD Channel F Resistance: {:.5f} Ohm".format(vol_f))
-        print("SD Channel G Resistance: {:.5f} Ohm".format(vol_g))
+        print("ADC 0 Chip Temperature:      {:.5f} °C".format(die_temp_0))
+        print("ADC 1 Chip Temperature:      {:.5f} °C".format(die_temp_1))
+        print("RTD Channel A Resistance:    {:.5f} Ohm".format(res_a))
+        print("RTD Channel B Resistance:    {:.5f} Ohm".format(res_b))
+        print("RTD Channel C Resistance:    {:.5f} Ohm".format(res_c))
+        print("RTD Channel D Resistance:    {:.5f} Ohm".format(res_d))
+        print("SD Channel E Resistance:     {:.5f} Ohm".format(vol_e))
+        print("SD Channel F Resistance:     {:.5f} Ohm".format(vol_f))
+        print("SD Channel G Resistance:     {:.5f} Ohm".format(vol_g))
+        print("SD Channel H Resistance:     {:.5f} Ohm".format(vol_h))
         
         adc0.close()
         adc1.close() 
