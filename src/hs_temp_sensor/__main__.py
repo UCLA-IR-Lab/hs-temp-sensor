@@ -1,5 +1,5 @@
 import argparse
-from logging import getLogger, basicConfig, Formatter, StreamHandler, DEBUG, CRITICAL, ERROR, WARNING, INFO
+from logging import getLogger, basicConfig, DEBUG, CRITICAL, ERROR, WARNING, INFO
 
 from hs_temp_sensor import ad7124
 
@@ -32,17 +32,9 @@ def main() -> None:
         level=log_levels[min(args.verbosity, max(log_levels.keys()))],
         format='%(asctime)s %(name)s:%(lineno)s [%(levelname)s]: %(message)s'
     )
-    
-    # logger = getLogger("hs_temp_sensor")
-    # handler = StreamHandler()
-    # handler.setLevel(log_levels[min(args.verbosity, max(log_levels.keys()))])
-    # handler.setFormatter(Formatter('%(asctime)s %(name)s:%(lineno)s [%(levelname)s]: %(message)s'))
-    # logger.setLevel(log_levels[min(args.verbosity, max(log_levels.keys()))])
-    # logger.addHandler(handler)
-    # logger.propagate = False
 
-    print("Using SPI device: {}".format(args.device))
-    print("Verbosity level: {}".format(args.verbosity))
+    logger.critical("Using SPI device: {}".format(args.device))
+    logger.debug("Verbosity level: {}".format(args.verbosity))
     
     adc = ad7124.AD7124(args.device)
     adc.connect()
