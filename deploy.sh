@@ -38,6 +38,11 @@ while true; do
         # break
         shift
         ;;
+    '--read')
+        OPT+="--read"
+        # break
+        shift
+        ;;
     '--test')
         OPT+="--test"
         # break

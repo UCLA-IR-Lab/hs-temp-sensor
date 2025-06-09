@@ -12,9 +12,10 @@ def main() -> None:
     parser.add_argument("-r", "--reset", action="store_true", help="Reset the ADC chip")
     parser.add_argument("--id", action="store_true", help="Read chip ID")
     parser.add_argument("--temp", action="store_true", help="Read on-chip die temperature")
-    parser.add_argument("--test", action="store_true", help="Run a test sequence")
+    parser.add_argument("--read", action="store_true", help="Read ADC data")
     parser.add_argument("--rtd", action="store_true", help="RTD measurement")
     parser.add_argument("--sd", action="store_true", help="Silicon Diode measurement")
+    parser.add_argument("--test", action="store_true", help="Run a test sequence")
     
     log_levels = {
         0: CRITICAL,
@@ -72,7 +73,7 @@ def main() -> None:
         
         return
     
-    if args.test:
+    if args.read:
         if args.rtd:
             logger.debug("Running RTD test...")
             test_rtd(adc)
