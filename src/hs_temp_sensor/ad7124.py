@@ -4,7 +4,7 @@ import time
 
 # logger = getLogger(__name__)
 
-# logger = getLogger("hs_temp_sensor")
+logger = getLogger("hs_temp_sensor")
 
 AD7124_SPI_BUS = 0
 AD7124_SPI_DEVICE = 0
@@ -103,16 +103,16 @@ class AD7124:
         
     def reset(self):
         self.spi.xfer2([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF])
-        # logger.debug("Reset complete")
+        logger.debug("Reset complete")
         
     def read_status(self):
         comms_write = AD7124_COMMS_REG | AD7124_COMM_REG_WEN | AD7124_COMM_REG_RD | AD7124_COMM_REG_RA(AD7124_STATUS_REG)
         response = self.spi.xfer2([comms_write, 0x00])
         status_register = response[-1] & 0xFF
-        # logger.debug("Status Register: 0x{:02X}".format(status_register))
-        # if (status_register & 0x80) >> 7 == 1:
-        #     logger.debug("ADC is not ready for conversion")
-        # logger.debug("Channel {} Converted".format(status_register & 0x0F))
+        logger.debug("Status Register: 0x{:02X}".format(status_register))
+        if (status_register & 0x80) >> 7 == 1:
+            logger.debug("ADC is not ready for conversion")
+        logger.debug("Channel {} Converted".format(status_register & 0x0F))
         
         return status_register
         
@@ -156,7 +156,7 @@ class AD7124:
                 gain_bits = 0b000
         config_reg = AD7124_CFG_REG_BIPOLAR | AD7124_CFG_REG_AIN_BUFP | AD7124_CFG_REG_AIN_BUFM | AD7124_CFG_REG_REF_SEL(0) | AD7124_CFG_REG_PGA(gain_bits)
         self.spi.xfer2([comms_write, (config_reg >> 8) & 0xFF, config_reg & 0xFF])
-        # logger.debug("Configuration Register {} set to: 0x{:04X}".format(cfg_channel, config_reg))
+        logger.debug("Configuration Register {} set to: 0x{:04X}".format(cfg_channel, config_reg))
         print("Configuration Register {} set to: 0x{:04X}".format(cfg_channel, config_reg))
         
     def read_config(self, cfg_channel=0):
@@ -172,7 +172,7 @@ class AD7124:
         adc_config = AD7124_ADC_CTRL_REG_DOUT_RDY_DEL | AD7124_ADC_CTRL_REG_DATA_STATUS | AD7124_ADC_CTRL_REG_REF_EN | AD7124_ADC_CTRL_REG_POWER_MODE(3) | AD7124_ADC_CTRL_REG_MODE(0) | AD7124_ADC_CTRL_REG_CLK_SEL(0)
         # adc_config = AD7124_ADC_CTRL_REG_REF_EN | AD7124_ADC_CTRL_REG_POWER_MODE(3) | AD7124_ADC_CTRL_REG_MODE(1) | AD7124_ADC_CTRL_REG_CLK_SEL(0)
         self.spi.xfer2([comms_write, (adc_config >> 8) & 0xFF, adc_config & 0xFF])
-        # logger.debug("ADC Configured: 0x{:04X}".format(adc_config))
+        logger.debug("ADC Configured: 0x{:04X}".format(adc_config))
         print("ADC Configured: 0x{:04X}".format(adc_config))
         
     def read_adc_config(self):
@@ -189,7 +189,7 @@ class AD7124:
         else:
             channel_config = AD7124_CH_MAP_REG_CH_ENABLE | AD7124_CH_MAP_REG_SETUP(0) | AD7124_CH_MAP_REG_AINP(ainp) | AD7124_CH_MAP_REG_AINM(ainm)
         self.spi.xfer2([comms_write, (channel_config >> 8) & 0xFF, channel_config & 0xFF])
-        # logger.debug("Channel {} Configured: 0x{:04X}".format(channel, channel_config))
+        logger.debug("Channel {} Configured: 0x{:04X}".format(channel, channel_config))
         print("Channel {} Configured: 0x{:04X}".format(channel, channel_config))
     
     def read_channel_config(self, channel=0):
@@ -207,16 +207,16 @@ class AD7124:
         data_reg = self.spi.xfer2([comms_write, 0x00, 0x00, 0x00, 0x00])
         data = (data_reg[-4] << 16) | (data_reg[-3] << 8) | data_reg[-2]
         status = data_reg[-1] & 0xFF
-        # logger.debug("Data Register: 0x{:06X}".format(data))
+        logger.debug("Data Register: 0x{:06X}".format(data))
         print("Data Register: 0x{:06X}".format(data))
-        # logger.debug("\tStatus Register: 0x{:02X}".format(status))
+        logger.debug("\tStatus Register: 0x{:02X}".format(status))
         print("\tStatus Register: 0x{:02X}".format(status))
         
         return data, status
     
     def read_die_temp(self, data):
         die_temp = ((data - 0x800000)/13584) - 272.5
-        # logger.info("Die Temperature: {:.5f} °C".format(die_temp))
+        logger.info("Die Temperature: {:.5f} °C".format(die_temp))
         
         return die_temp
     
