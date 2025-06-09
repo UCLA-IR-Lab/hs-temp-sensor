@@ -38,15 +38,14 @@ def main() -> None:
         print("Running test sequence...")
         adc0 = ad7124.AD7124(0)
         adc1 = ad7124.AD7124(1)
-        adc0.connect()
-        adc1.connect()
         
+        adc0.connect()
         die_temp_0, res_a, res_b, res_c, res_d = test_rtd(adc0)
+        adc1.connect()
         die_temp_1, vol_e, vol_f, vol_g, vol_h = test_sd(adc1)
         
-        print("ADC 0 Die Temperature: {:.5f} °C".format(die_temp_0))
-        print("ADC 1 Die Temperature: {:.5f} °C".format(die_temp_1))
-        
+        print("ADC 0 Chip Temperature: {:.5f} °C".format(die_temp_0))
+        print("ADC 1 Chip Temperature: {:.5f} °C".format(die_temp_1))
         print("RTD Channel A Resistance: {:.5f} Ohm".format(res_a))
         print("RTD Channel B Resistance: {:.5f} Ohm".format(res_b))
         print("RTD Channel C Resistance: {:.5f} Ohm".format(res_c))
