@@ -47,6 +47,14 @@ def main() -> None:
         print("ADC 0 Die Temperature: {:.5f} °C".format(die_temp_0))
         print("ADC 1 Die Temperature: {:.5f} °C".format(die_temp_1))
         
+        print("RTD Channel A Resistance: {:.5f} Ohm".format(res_a))
+        print("RTD Channel B Resistance: {:.5f} Ohm".format(res_b))
+        print("RTD Channel C Resistance: {:.5f} Ohm".format(res_c))
+        print("RTD Channel D Resistance: {:.5f} Ohm".format(res_d))
+        print("SD Channel E Resistance: {:.5f} Ohm".format(vol_e))
+        print("SD Channel F Resistance: {:.5f} Ohm".format(vol_f))
+        print("SD Channel G Resistance: {:.5f} Ohm".format(vol_g))
+        
         adc0.close()
         adc1.close() 
         
