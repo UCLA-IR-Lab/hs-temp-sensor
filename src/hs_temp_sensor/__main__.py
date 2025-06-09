@@ -65,8 +65,8 @@ def main() -> None:
         print("Reading on-chip die temperature...")
         adc.initialize()
         # if args.verbosity:
-        adc.read_adc_config()
-        adc.read_channel_config()
+        #     adc.read_adc_config()
+        #     adc.read_channel_config()
         adc.read_data()
         adc.set_adc_config()
         adc.set_config(gain=1, cfg_channel=0)
