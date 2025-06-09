@@ -1,11 +1,11 @@
 import argparse
-from logging import basicConfig, StreamHandler, DEBUG, CRITICAL, ERROR, WARNING, INFO
+from logging import getLogger, basicConfig, Formatter, StreamHandler, DEBUG, CRITICAL, ERROR, WARNING, INFO
 
 from hs_temp_sensor import ad7124
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="HISPEC 4-wire Temperature Sensor Test Software")
-    parser.add_argument("-v", "--verbose", dest="verbosity", action="count", default=4,
+    parser.add_argument("-v", "--verbose", dest="verbosity", action="count", default=0,
                         help="Verbosity (between 1-4 occurrences with more leading to more verbose logging)" \
                         "CRITICAL=0, ERROR=1, WARNING=2, INFO=3, DEBUG=4")
     parser.add_argument("-d", "--device", type=int, default="0", help="I2C device number (default: 0)")
@@ -26,10 +26,18 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    basicConfig(
-        level=log_levels[min(args.verbosity, max(log_levels.keys()))],
-        format='%(asctime)s %(name)s:%(lineno)s [%(levelname)s]: %(message)s'
-    )
+    # basicConfig(
+    #     level=log_levels[min(args.verbosity, max(log_levels.keys()))],
+    #     format='%(asctime)s %(name)s:%(lineno)s [%(levelname)s]: %(message)s'
+    # )
+    
+    logger = getLogger("hs_temp_sensor")
+    handler = StreamHandler()
+    handler.setLevel(log_levels[min(args.verbosity, max(log_levels.keys()))])
+    handler.setFormatter(Formatter('%(asctime)s %(name)s:%(lineno)s [%(levelname)s]: %(message)s'))
+    logger.setLevel(log_levels[min(args.verbosity, max(log_levels.keys()))])
+    logger.addHandler(handler)
+    logger.propagate = False
 
     print("Using SPI device: {}".format(args.device))
     print("Verbosity level: {}".format(args.verbosity))
