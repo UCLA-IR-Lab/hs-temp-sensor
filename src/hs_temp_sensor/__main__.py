@@ -33,7 +33,7 @@ def main() -> None:
         format='%(asctime)s %(name)s:%(lineno)s [%(levelname)s]: %(message)s'
     )
 
-    logger.critical("Using SPI device: {}".format(args.device))
+    logger.info("Using SPI device: {}".format(args.device))
     logger.debug("Verbosity level: {}".format(args.verbosity))
     
     adc = ad7124.AD7124(args.device)
