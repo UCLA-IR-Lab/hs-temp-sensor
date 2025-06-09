@@ -1,6 +1,5 @@
 import argparse
 from logging import getLogger, basicConfig, DEBUG, CRITICAL, ERROR, WARNING, INFO
-import time
 
 from hs_temp_sensor import ad7124
 
@@ -38,7 +37,7 @@ def main() -> None:
     # )
     
     if args.test:
-        print("Running test sequence...")
+        # print("Running test sequence...")
         adc0 = ad7124.AD7124(0)
         adc1 = ad7124.AD7124(1)
         
@@ -49,7 +48,6 @@ def main() -> None:
         
         print("ADC 0 Chip Temperature:      {:.5f} [°C]".format(die_temp_0))
         print("ADC 1 Chip Temperature:      {:.5f} [°C]".format(die_temp_1))
-        print("")
         print("RTD Channel A Resistance:    {:.5f} [Ω]".format(res_a))
         print("RTD Channel B Resistance:    {:.5f} [Ω]".format(res_b))
         print("RTD Channel C Resistance:    {:.5f} [Ω]".format(res_c))
@@ -87,7 +85,7 @@ def main() -> None:
         return
     
     if args.temp:
-        # logger.debug("Reading on-chip die temperature...")
+        logger.debug("Reading on-chip die temperature...")
         adc.initialize()
         id_reg, dev_id, silicon_rev = adc.read_id()
         adc.set_adc_config()
@@ -105,7 +103,7 @@ def main() -> None:
     
     if args.read:
         if args.rtd:
-            # logger.debug("Running RTD test...")
+            logger.debug("Running RTD test...")
             die_temp, res_a, res_b, res_c, res_d = test_rtd(adc)
             
             print("ADC {} Chip Temperature:     {:.5f} [°C]".format(args.device, die_temp))
@@ -114,7 +112,7 @@ def main() -> None:
             print("RTD Channel C Resistance:    {:.5f} [Ω]".format(res_c))
             print("RTD Channel D Resistance:    {:.5f} [Ω]".format(res_d))
         elif args.sd:
-            # logger.debug("Running Silicon Diode test...")
+            logger.debug("Running Silicon Diode test...")
             die_temp, vol_e, vol_f, vol_g, vol_h = test_sd(adc)
             
             print("ADC {} Chip Temperature:     {:.5f} [°C]".format(args.device, die_temp))
