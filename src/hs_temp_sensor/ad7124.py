@@ -189,7 +189,7 @@ class AD7124:
         else:
             channel_config = AD7124_CH_MAP_REG_CH_ENABLE | AD7124_CH_MAP_REG_SETUP(0) | AD7124_CH_MAP_REG_AINP(ainp) | AD7124_CH_MAP_REG_AINM(ainm)
         self.spi.xfer2([comms_write, (channel_config >> 8) & 0xFF, channel_config & 0xFF])
-        logger.debug("Channel {} Configured: 0x{:04X}".format(channel, channel_config))
+        # logger.debug("Channel {} Configured: 0x{:04X}".format(channel, channel_config))
         print("Channel {} Configured: 0x{:04X}".format(channel, channel_config))
     
     def read_channel_config(self, channel=0):
