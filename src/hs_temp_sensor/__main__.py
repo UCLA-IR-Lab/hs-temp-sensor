@@ -32,6 +32,7 @@ def main() -> None:
     )
 
     print("Using SPI device: {}".format(args.device))
+    args.verbosity = 1
     print("Verbosity level: {}".format(args.verbosity))
     
     adc = ad7124.AD7124(args.device)
