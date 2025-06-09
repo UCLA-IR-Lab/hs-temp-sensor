@@ -143,6 +143,8 @@ def test_rtd(adc: ad7124.AD7124) -> None:
     
 def test_sd(adc: ad7124.AD7124) -> None:
     adc.initialize()
+    
+    id_reg, dev_id, silicon_rev = adc.read_id()
         
     adc.set_adc_config()
     adc.set_config(gain=1, cfg_channel=0)
