@@ -26,18 +26,18 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    # basicConfig(
-    #     level=log_levels[min(args.verbosity, max(log_levels.keys()))],
-    #     format='%(asctime)s %(name)s:%(lineno)s [%(levelname)s]: %(message)s'
-    # )
+    basicConfig(
+        level=log_levels[min(args.verbosity, max(log_levels.keys()))],
+        format='%(asctime)s %(name)s:%(lineno)s [%(levelname)s]: %(message)s'
+    )
     
-    logger = getLogger("hs_temp_sensor")
-    handler = StreamHandler()
-    handler.setLevel(log_levels[min(args.verbosity, max(log_levels.keys()))])
-    handler.setFormatter(Formatter('%(asctime)s %(name)s:%(lineno)s [%(levelname)s]: %(message)s'))
-    logger.setLevel(log_levels[min(args.verbosity, max(log_levels.keys()))])
-    logger.addHandler(handler)
-    logger.propagate = False
+    # logger = getLogger("hs_temp_sensor")
+    # handler = StreamHandler()
+    # handler.setLevel(log_levels[min(args.verbosity, max(log_levels.keys()))])
+    # handler.setFormatter(Formatter('%(asctime)s %(name)s:%(lineno)s [%(levelname)s]: %(message)s'))
+    # logger.setLevel(log_levels[min(args.verbosity, max(log_levels.keys()))])
+    # logger.addHandler(handler)
+    # logger.propagate = False
 
     print("Using SPI device: {}".format(args.device))
     print("Verbosity level: {}".format(args.verbosity))
