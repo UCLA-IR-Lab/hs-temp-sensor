@@ -1,7 +1,7 @@
 #! /usr/bin/bash
 
 short_opt_str=':vd:rih'
-long_opt_str=':verbose,device:,reset,id,temp,test,rtd,sd,help'
+long_opt_str=':verbose,device:,reset,id,temp,read,test,rtd,sd,help'
 
 VALID_ARGS=$(getopt -o "$short_opt_str" -l "$long_opt_str" -- "$@")
 if [ $? -ne 0 ]; then
