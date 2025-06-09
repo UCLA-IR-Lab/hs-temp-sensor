@@ -30,6 +30,7 @@ def main() -> None:
     args = parser.parse_args()
     
     logger = getLogger("hs_temp_sensor")
+    logger.setLevel(DEBUG if args.verbosity else INFO)
 
     # basicConfig(
     #     level=log_levels[min(args.verbosity, max(log_levels.keys()))],
